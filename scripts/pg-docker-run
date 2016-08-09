@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+set -x
+
+docker run \
+       --name=princetondb \
+       -e POSTGRES_PASSWORD=password \
+       -e POSTGRES_DB=princeton_dev \
+       -p 5432:5432 \
+       -d \
+       postgres
+       

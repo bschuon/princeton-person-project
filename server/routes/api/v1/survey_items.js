@@ -11,7 +11,7 @@ var Completion = require('../../../models/completion');
 var Answer = require('../../../models/answer');
 var Score = require('../../../models/score');
 var User = require('../../../models/user');
-var bookshelf = require('../../../config/connection').surveys;
+var bookshelf = require('../../../config/connection');
 var auth = require('../../../middleware/auth/index');
 var algorithmRunner = require('../../../lib/algorithm-runner');
 

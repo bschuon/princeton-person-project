@@ -1,4 +1,4 @@
-var SurveyItem = require('../models/survey_item');
+var SurveyItem = require('../models/question');
 
 module.exports = function(survey_items, return_promise) {
   var success_msg = "Survey items seeded.",
@@ -20,4 +20,4 @@ module.exports = function(survey_items, return_promise) {
     });
   }
 
-}
+};

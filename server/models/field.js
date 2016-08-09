@@ -1,4 +1,4 @@
-var bookshelf = require('../config/connection').surveys;
+var bookshelf = require('../config/connection');
 require('./survey');
 require('./question');
 

@@ -1,9 +1,7 @@
 #!/bin/bash
-dropdb princeton-surveys-development
-dropdb princeton-users-development
-createdb princeton-surveys-development
-createdb princeton-users-development
+dropdb princeton-development
+createdb princeton-development
 
-node server/db/migrate.js users
+node server/db/migrate.js
 node server/db/seeds/users/users.js
 ./server/db/seeds/surveys/migrate-and-seed-all.sh

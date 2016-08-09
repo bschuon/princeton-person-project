@@ -5,8 +5,7 @@ npm install knex -g
 npm install nodemon -g
 npm install bower -g
 npm install gulp -g
-createdb princeton-users-development
-createdb princeton-surveys-development
+createdb princeton-development
 cp .env{.example,}
 npm install
 nodemon
@@ -40,19 +39,15 @@ To migrate to the latest version, run:
 node server/db/migrate.js
 ```
 
-To migrate just one database run:
+To rollback, run:
 
 ```
-node server/db/migrate.js users
-```
-
-To rollback just one database run:
-
-```
-node server/db/migrate.js users rollback
+node server/db/migrate.js rollback
 ```
 
 ### Creating Migrations
+
+__TODO:__ fix ```make-migrations.js``` for single database.
 
 To create new migrations for the **users** database, run:
 

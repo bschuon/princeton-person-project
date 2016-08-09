@@ -8,8 +8,7 @@ var createAdmin = require('../../../lib/create_admin');
 var auth = require('../../../middleware/auth');
 var multiline = require('multiline');
 var _ = require('lodash');
-var surveysDb = require('../../../config/connection').surveys;
-var usersDb = require('../../../config/connection').users;
+var bookshelf = require('../../../config/connection');
 var User = require('../../../models/user');
 
 var usersApi = function(passport) {
@@ -24,7 +23,7 @@ var usersApi = function(passport) {
       email = undefined;
     }
     return {id: user.id,
-            admin: user.admin === true ? true : false,
+            admin: user.admin === true,
             username: user.username,
             completed_demographics: user.completed_demographics,
             email: email};
@@ -47,10 +46,10 @@ var usersApi = function(passport) {
       update users set completed_demographics = true where id = ?
     */});
 
-    surveysDb.knex.raw(query1, [req.session.passport.user, req.body.userToken]).then(function(data1){
-      surveysDb.knex.raw(query2, [req.session.passport.user]).then(function(data2){
+    bookshelf.knex.raw(query1, [req.session.passport.user, req.body.userToken]).then(function(data1){
+      bookshelf.knex.raw(query2, [req.session.passport.user]).then(function(data2){
         if(data2.rowCount === 1){
-          usersDb.knex.raw(query3, [req.session.passport.user]).then(function(data3){
+          bookshelf.knex.raw(query3, [req.session.passport.user]).then(function(data3){
             res.json({demographics: true});
           });
         }else{
@@ -73,7 +72,7 @@ var usersApi = function(passport) {
       where c.user_id = ?
     */});
 
-    surveysDb.knex.raw(query, [req.session.passport.user]).then(function(data){
+    bookshelf.knex.raw(query, [req.session.passport.user]).then(function(data){
       res.json({rows: data.rows});
     });
   });
@@ -147,10 +146,10 @@ var usersApi = function(passport) {
       where u.id = ?
     */});
 
-    surveysDb.knex.raw(scores, [req.session.passport.user]).then(function(rScores){
-      surveysDb.knex.raw(answers, [req.session.passport.user]).then(function(rAnswers){
-        surveysDb.knex.raw(completions, [req.session.passport.user]).then(function(rCompletions){
-          usersDb.knex.raw(users, [req.session.passport.user]).then(function(rUsers){
+    bookshelf.knex.raw(scores, [req.session.passport.user]).then(function(rScores){
+      bookshelf.knex.raw(answers, [req.session.passport.user]).then(function(rAnswers){
+        bookshelf.knex.raw(completions, [req.session.passport.user]).then(function(rCompletions){
+          bookshelf.knex.raw(users, [req.session.passport.user]).then(function(rUsers){
             req.logout();
             return res.json({success: "Logged out"});
           });
@@ -232,7 +231,7 @@ var usersApi = function(passport) {
       var params = [req.session.passport.user || req.body.userToken];
     }
 
-    surveysDb.knex.raw(query, params).then(function(data1){
+    bookshelf.knex.raw(query, params).then(function(data1){
       var query = multiline.stripIndent(function(){/*
         select s.*
         from scores s
@@ -245,7 +244,7 @@ var usersApi = function(passport) {
         return res.json({survey: "Not Implemented", score: 0, average: 0});
       }
 
-      surveysDb.knex.raw(query, [data1.rows[0].completion_id]).then(function(data2){
+      bookshelf.knex.raw(query, [data1.rows[0].completion_id]).then(function(data2){
         var sum = _.reduce(data2.rows, function(acc, row){
           return acc + JSON.parse(row.value).overall;
         }, 0);

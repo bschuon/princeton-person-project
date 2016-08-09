@@ -149,7 +149,7 @@ var data = {
     {
       id: 'demo-f16',
       widget: 'number'
-    },
+    }
   ],
   mappings: [
     {

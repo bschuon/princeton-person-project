@@ -1,4 +1,4 @@
-var bookshelf = require('../config/connection').surveys;
+var bookshelf = require('../config/connection');
 require('./completion');
 
 module.exports = bookshelf.model('Score', {

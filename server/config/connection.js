@@ -1,17 +1,11 @@
-var dbConfig = require('./db')
-var knex = require('knex')
-var bookshelf = require('bookshelf')
+var dbConfig = require('./db');
+var knex = require('knex');
+var bookshelf = require('bookshelf');
 
-var usersBookshelfConnection = knex(dbConfig.users);
-var surveysBookshelfConnection = knex(dbConfig.surveys);
+var conn = knex(dbConfig);
 
-var usersBookshelf = bookshelf(usersBookshelfConnection);
-var surveysBookshelf = bookshelf(surveysBookshelfConnection);
+var knexBookshelf = bookshelf(conn);
 
-usersBookshelf.plugin('registry');
-surveysBookshelf.plugin('registry');
+knexBookshelf.plugin('registry');
 
-module.exports = {
-  users: usersBookshelf,
-  surveys: surveysBookshelf
-}
+module.exports = knexBookshelf;

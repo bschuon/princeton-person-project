@@ -1,5 +1,8 @@
 #!/bin/bash
-node server/db/migrate.js surveys
+node server/db/migrate.js
+
+echo "users"
+node server/db/seeds/users/users.js
 
 echo "body-consciousness-scale"
 node server/db/seeds/surveys/body-consciousness-scale.js

@@ -1,41 +1,21 @@
-'use strict'
+'use strict';
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({path: '.env'});
 }
 
-var Knex = require('knex')
-var format = require('util').format
-var settings = require('../config/db')
+var Knex = require('knex');
+var settings = require('../config/db');
+var client = Knex(settings);
 
-if (process.argv[2]) {
-  var client = Knex(settings[process.argv[2]])
-
-  if (process.argv[3] === 'rollback') {
-    client.migrate.rollback().then(function () {
-      console.log('%s database rollback complete', process.argv[2])
-      return client.destroy()
-    })
-  } else {
-    client.migrate.latest().then(function () {
-      console.log('%s database migrations complete', process.argv[2])
-      return client.destroy()
-    })
-  }
+if (process.argv[2] === 'rollback') {
+  client.migrate.rollback().then(function () {
+    console.log('database rollback complete');
+    return client.destroy()
+  })
 } else {
-  Promise.all(Object.keys(settings).map(function (database) {
-    var client = Knex(settings[database])
-
-    return client.migrate.latest().then(function () {
-      console.log('%s database migrations complete', database)
-    }, function (err) {
-      console.log('Migration failed due to', err);
-    }).then(function () {
-      return client.destroy()
-    })
-  })).then(function () {
-    console.log('All migrations complete')
-  }, function (err) {
-    console.log('Migrations failed due to', err);
+  client.migrate.latest().then(function () {
+    console.log('database migrations complete');
+    return client.destroy()
   })
 }

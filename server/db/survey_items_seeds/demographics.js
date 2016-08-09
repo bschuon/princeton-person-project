@@ -1,4 +1,3 @@
-var SurveyItem = require('../../models/survey_item');
 var Survey = require('../../models/survey');
 var saveSurveyItems = require('../../lib/save_survey_items');
 
@@ -18,7 +17,7 @@ var options_1 = JSON.stringify([
     value: 3,
     additionalTextField: false
   }
-])
+]);
 
 var subQuestions_1 = JSON.stringify([]);
 
@@ -65,7 +64,7 @@ var options_3 = JSON.stringify([
     value: 6,
     additionalTextField: true
   }
-])
+]);
 
 var subQuestions_3 = JSON.stringify([]);
 
@@ -115,7 +114,7 @@ var options_6 = JSON.stringify([
     value: 5,
     additionalTextField: false
   }
-])
+]);
 
 var subQuestions_6 = JSON.stringify([]);
 
