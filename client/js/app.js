@@ -1,4 +1,12 @@
-var app = angular.module('person-project', ['ui.router', 'ngCookies', 'angularModalService', 'formly', 'formlyBootstrap', 'angularUtils.directives.dirPagination']);
+var app = angular.module('person-project', [
+  'ui.router',
+  'ngCookies',
+  'angularModalService',
+  'formly',
+  'formlyBootstrap',
+  'angularUtils.directives.dirPagination',
+  'mwFormBuilder'
+]);
 
 app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider",
   function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
