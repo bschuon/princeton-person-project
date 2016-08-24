@@ -14,7 +14,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
             onReady: '&',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-page-element-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid){

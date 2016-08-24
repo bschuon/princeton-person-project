@@ -35,7 +35,8 @@
     "angular-ui-sortable": "^0.14.3",
     "Sortable": "^1.4.2",
     "ng-sortable": "^1.3.6",
-    "angular-translate": "^2.11.1"
+    "angular-translate": "^2.11.1",
+    "angular-bootstrap": "^2.0.2"
   },
   "resolutions": {
     "angular": "1.4.12"

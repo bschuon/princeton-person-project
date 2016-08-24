@@ -11,7 +11,7 @@ angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function () {
             readOnly: '=?',
             options: '=?'
         },
-        templateUrl: 'mw-question-grid-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-question-grid-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid){

@@ -22,7 +22,7 @@ angular.module('mwFormBuilder').factory("FormImageBuilderId", function(){
             readOnly: '=?',
             onImageSelection: '&'
         },
-        templateUrl: 'mw-form-image-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-image-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout,FormImageBuilderId, mwFormUuid){

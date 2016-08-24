@@ -12,7 +12,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', function () {
             isLast: '=',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-page-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-page-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout, mwFormUuid, mwFormClone, mwFormBuilderOptions){

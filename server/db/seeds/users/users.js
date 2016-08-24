@@ -15,7 +15,7 @@ Promise.all([
 ]).then(function() {
   console.log("Users seeded successfully");
   process.exit();
-}, function() {
-  console.log("ERROR: users not seeded");
+}, function(err) {
+  console.log("ERROR users not seeded:", err);
   process.exit(1);
 });

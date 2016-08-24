@@ -10,7 +10,7 @@ angular.module('mwFormBuilder').directive('mwQuestionPriorityListBuilder', funct
             readOnly: '=?',
             options: '=?'
         },
-        templateUrl: 'mw-question-priority-list-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-question-priority-list-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid){

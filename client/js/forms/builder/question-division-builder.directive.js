@@ -10,7 +10,7 @@ angular.module('mwFormBuilder').directive('mwQuestionDivisionBuilder', function 
             readOnly: '=?',
             options: '=?'
         },
-        templateUrl: 'mw-question-division-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-question-division-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid){

@@ -21,7 +21,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
             isPreview: '=?',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-paragraph-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-paragraph-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout,FormParagraphBuilderId){

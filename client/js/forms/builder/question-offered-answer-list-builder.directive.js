@@ -12,7 +12,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
             options: '=?',
             disableOtherAnswer: '=?'
         },
-        templateUrl: 'mw-question-offered-answer-list-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-question-offered-answer-list-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(FormQuestionBuilderId, mwFormUuid){

@@ -21,7 +21,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
             isPreview: '=?',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-question-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-question-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout,FormQuestionBuilderId, mwFormBuilderOptions){

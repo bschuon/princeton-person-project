@@ -21,7 +21,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function(){
             options: '=?',
             onResponseChanged: '&?'
         },
-        templateUrl: 'mw-form-question.html',
+        templateUrl: '/partials/forms/viewer/templates/bootstrap/mw-form-question.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout,FormQuestionId){

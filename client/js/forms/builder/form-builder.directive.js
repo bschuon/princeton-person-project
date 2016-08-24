@@ -12,7 +12,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', function () {
             onImageSelection: '&',
             api: '=?'
         },
-        templateUrl: 'mw-form-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid, MW_QUESTION_TYPES, mwFormBuilderOptions){
@@ -27,10 +27,10 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', function () {
 
             ctrl.options = mwFormBuilderOptions.$init(ctrl.options);
             ctrl.numberOfPages=function(){
-                return Math.ceil(ctrl.formData.pages.length/ctrl.pageSize);                
+                return Math.ceil(ctrl.formData.pages.length/ctrl.pageSize);
             };
             ctrl.lastPage = function(){
-               ctrl.currentPage = Math.ceil(ctrl.formData.pages.length/ctrl.pageSize - 1); 
+               ctrl.currentPage = Math.ceil(ctrl.formData.pages.length/ctrl.pageSize - 1);
             };
             ctrl.addPage = function(){
                 ctrl.lastPage();
@@ -38,10 +38,10 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', function () {
             };
             ctrl.onChangePageSize = function(){
                 if(ctrl.currentPage > Math.ceil(ctrl.formData.pages.length/ctrl.pageSize - 1)){
-                   ctrl.currentPage = Math.ceil(ctrl.formData.pages.length/ctrl.pageSize - 1); 
+                   ctrl.currentPage = Math.ceil(ctrl.formData.pages.length/ctrl.pageSize - 1);
                 }
             };
-            
+
 
             function createEmptyPage(number){
                 var defaultPageFlow = null;

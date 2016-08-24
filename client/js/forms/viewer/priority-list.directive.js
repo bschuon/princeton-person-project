@@ -12,7 +12,7 @@ angular.module('mwFormViewer')
             readOnly: '=?',
             options: '=?'
         },
-        templateUrl: 'mw-priority-list.html',
+        templateUrl: '/partials/forms/viewer/templates/bootstrap/mw-priority-list.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(){

@@ -11,7 +11,7 @@ angular.module('mwFormViewer')
             confirmationMessage: '=',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-confirmation-page.html',
+        templateUrl: '/partials/forms/viewer/templates/bootstrap/mw-form-confirmation-page.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(){

@@ -11,11 +11,12 @@ angular.module('mwFormBuilder').directive('mwLabel', function () {
             labelClass: "@",
             labelTranslateValues: "="
         },
-        templateUrl: 'mw-label.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-label.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function(mwFormUuid){
             var ctrl = this;
+
         },
         link: function (scope, ele, attrs){
 

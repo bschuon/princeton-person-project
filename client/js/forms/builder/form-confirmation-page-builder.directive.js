@@ -7,7 +7,7 @@ angular.module('mwFormBuilder').directive('mwFormConfirmationPageBuilder', funct
             formObject: '=',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-confirmation-page-builder.html',
+        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-confirmation-page-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout){

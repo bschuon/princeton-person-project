@@ -15,7 +15,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function () {
             api: '=?'
 
         },
-        templateUrl: 'mw-form-viewer.html',
+        templateUrl: '/partials/forms/viewer/templates/bootstrap/mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: function($timeout, $interpolate){
