@@ -1,0 +1,19 @@
+app:
+  image: slantsystems/princeton-person-project:latest
+  ports:
+    - "80:3000"
+  links:
+    - postgres
+  environment:
+    - DB_HOST=postgres
+    - DB_DATABASE=princeton
+    - DB_USERNAME=postgres
+    - DB_PASSWORD=password
+    - SKIP_FACEBOOK_STRATEGY=true
+postgres:
+  image: postgres
+  ports:
+    - "5432:5432"
+  environment:
+    - POSTGRES_PASSWORD=password
+    - POSTGRES_DB=princeton

@@ -1,4 +1,7 @@
 var config = require('./config');
+var pg = require('pg');
+pg.defaults.ssl = true;
+
 
 module.exports = {
   //debug: true,

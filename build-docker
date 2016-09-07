@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+set -x
+
+docker build --force-rm -t slantsystems/princeton-person-project:latest .
+# docker run -i -t --rm -p 3000:80 slantsystems/princeton-person-project:latest
+# docker-compose up
