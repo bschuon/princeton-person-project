@@ -70,6 +70,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
     $scope.surveys;
     $scope.editingSurvey;
     $scope.surveyJSON;
+    $scope.currentSurvey = {};
 
     var ctrl = this;
     ctrl.mergeFormWithResponse = true;
@@ -83,7 +84,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
     ctrl.languages = ['en', 'pl', "es"];
     ctrl.formData = null;
 
-    var formData = {}
+    var formData = $scope.currentSurvey
 
 
         ctrl.formData = formData;
@@ -187,26 +188,9 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
         };
 
         $scope.viewSurvey = function(survey) {
-          $state.go('admin.surveys' + survey.id)
-        };
-
-        $scope.deleteSurvey = function(survey) {
-          ModalService.showModal({
-            templateUrl: "/partials/admin/delete_survey_modal.html",
-            controller: "ModalController",
-          }).then(function(modal) {
-            modal.element.modal();
-            modal.close.then(function(result) {
-              if (result === "DELETE") {
-                // TODO: Is this a good idea?  Would we ever want to do this?
-                //AdminService.deleteServey(survey.id).then(function() {
-                $scope.surveys = $scope.surveys.filter(function(s) {
-                  return s.id !== survey.id;
-                });
-                //});
-              }
-            });
-          });
+          $scope.currentSurvey = survey
+          $state.go('admin.show_survey', {survey_id: survey.id})
+          debugger;
         };
 
 
@@ -253,9 +237,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
       $state.go('admin.new_survey')
     };
 
-    $scope.viewSurvey = function(survey) {
-      $state.go('admin.surveys' + survey)
-    };
+
 
     $scope.deleteSurvey = function(survey) {
       ModalService.showModal({
