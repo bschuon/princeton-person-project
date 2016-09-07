@@ -401,9 +401,6 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
     };
 
     $scope.createSurvey = function() {
-        ctrl.formData =  null
-        ctrl.templateData = null
-        ctrl.responseData = null
 
       $state.go('admin.new_survey')
     };
