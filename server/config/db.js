@@ -1,6 +1,6 @@
 var config = require('./config');
 var pg = require('pg');
-pg.defaults.ssl = true;
+pg.defaults.ssl = config.db.ssl;
 
 
 module.exports = {
