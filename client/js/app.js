@@ -157,7 +157,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
             "userAnswer": "User answer",
             "buttons":{
                 "addOption":"Click to add option",
-                "addOther":"Add 'Other'"
+                "addOther":"Add 'Other'",
+                "saveSurvey":"Save Survey"
             }
 
         },
