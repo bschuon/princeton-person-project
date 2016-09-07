@@ -205,7 +205,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
   .state('admin.featured', {url: '/featured', templateUrl: '/partials/admin/featured.html', controller: 'FeaturedSurveysController'})
   .state('admin.select_surveys', {url: '/csv-surveys', templateUrl: 'partials/admin/select_surveys.html', controller: 'AdminSelectSurveysController'})
   .state('admin.select_survey_items', {url: '/csv-surveys/download', templateUrl: 'partials/admin/select_survey_items.html', controller: 'AdminSelectSurveyItemsController'})
-  .state('admin.new_survey', {url: '/surveys/new', templateUrl: '/partials/surveys/new.html', controller: 'DemoController'})
+  .state('admin.new_survey', {url: '/surveys/new', templateUrl: '/partials/surveys/new.html', controller: 'AdminSurveysController'})
   .state('admin.survey', {url: '/surveys/:survey_id', templateUrl: '/partials/surveys/show.html', controller: 'SurveyController'})
   .state('admin.surveys', {url: '/surveys', templateUrl: '/partials/admin/manage_surveys.html', controller: 'AdminSurveysController'})
   .state('admin.users', {url: '/users', templateUrl: '/partials/users/index.html', controller: 'UsersController'})

@@ -1,3 +1,4 @@
+
 <div ng-show="editingSurvey">
   <survey-edit close="dismissEdit()" survey="surveyJSON"></survey-edit>
   <hr>
@@ -11,10 +12,12 @@
     </th>
     <th>Edit</th>
     <th>Delete</th>
+    <th> viewer </th>
   </tr>
   <tr ng-repeat="survey in surveys | orderBy: survey.name">
     <td>{{survey.name}}</td>
     <td><button type="button" class="btn btn-default" ng-click="showSurvey(survey)">Edit</button></td>
     <td><button type="button" class="btn btn-default" ng-click="deleteSurvey(survey)">Delete</button></td>
+    <td><button type="button" class="btn btn-default" ng-click="viewSurvey(survey)">Viewer</button></td>
   </tr>
 </table>

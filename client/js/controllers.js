@@ -2,270 +2,6 @@
 /* *********************************************************************************** */
 /* *********************************************************************************** */
 
-app.controller('DemoController', [
-"$q","$http","$translate","mwFormResponseUtils",
-function($q,$http, $translate, mwFormResponseUtils) {
-
-    var ctrl = this;
-    ctrl.mergeFormWithResponse = true;
-    ctrl.cgetQuestionWithResponseList = true;
-    ctrl.cgetResponseSheetHeaders = true;
-    ctrl.cgetResponseSheetRow = true;
-    ctrl.cgetResponseSheet = true;
-    ctrl.headersWithQuestionNumber = true;
-    ctrl.builderReadOnly = false;
-    ctrl.viewerReadOnly = false;
-    ctrl.languages = ['en', 'pl', "es"];
-    ctrl.formData = null;
-
-var formData = {
-  "name": "form name",
-  "description": "description",
-
-  "pages": [
-  {
-  "id": "f6b87dc9142722d4bd2d0dc24b633fa3",
-  "number": 1,
-  "name": null,
-  "description": null,
-  "pageFlow": {
-  "nextPage": true,
-  "label": "mwForm.pageFlow.goToNextPage"
-  },
-  "elements": [
-  {
-  "id": "39b0e9fa91ba7c23efa60cb1218e2e00",
-  "orderNo": 1,
-  "type": "question",
-  "question": {
-  "id": "b22de786a20090fce1027ad7881c729a",
-  "text": "Please answer the following",
-  "type": "grid",
-  "required": true,
-  "grid": {
-  "rows": [
-  {
-  "id": "74fc1726c31bb24fc486770280e543a3",
-  "orderNo": 1,
-  "label": "I am quick to sense the hunger contractions of my stomach."
-  },
-  {
-  "id": "585d90ad2f6ab4bb0568e91cf9752e9a",
-  "orderNo": 2,
-  "label": "I'm sensitive to internal bodily tensions."
-  },
-  {
-  "id": "b684ec339174b1a13b56f47407b09d61",
-  "orderNo": 3,
-  "label": "I know immediately when my mouth or throat gets dry."
-  },
-  {
-  "id": "10a6da136268bf420edf94624e1f77b1",
-  "orderNo": 4,
-  "label": "I can often feel my heart beating."
-  },
-  {
-  "id": "e973ed2c5e794a18ec4e27ddb6594b2d",
-  "orderNo": 5,
-  "label": "I'm very aware of changes in my body temperature"
-  }
-  ],
-  "cols": [
-  {
-  "id": "c124c05949c5544c2fc3b181fb3572ba",
-  "orderNo": 1,
-  "label": "extremely uncharacteristic"
-  },
-  {
-  "id": "155cee20f44e442a43854b6f20e03cb3",
-  "orderNo": 2,
-  "label": "."
-  },
-  {
-  "id": "f514536d7e0914219a6a3e310a898e4f",
-  "orderNo": 3,
-  "label": "."
-  },
-  {
-  "id": "52a91e5176fe41387ed13e3d57466556",
-  "orderNo": 4,
-  "label": "."
-  },
-  {
-  "id": "8dd774353c6f0df55ea62ee9ab0d6c41",
-  "orderNo": 5,
-  "label": "extremely characteristic"
-  }
-  ]
-  },
-  "pageFlowModifier": false
-  }
-  }
-  ],
-  "namedPage": false
-  }
-  ],
-  "name": "Body Consciousness Scale",
-  "description": "Please rate the following statements as they relate to your personal experience as accurately as possible on the provided scale."
-  }
-
-
-    ctrl.formData = formData;
-
-    ctrl.formBuilder={};
-    ctrl.formViewer = {};
-    ctrl.formOptions = {
-        autoStart: false
-    };
-    ctrl.optionsBuilder={
-        /*elementButtons:   [{title: 'My title tooltip', icon: 'fa fa-database', text: '', callback: ctrl.callback, filter: ctrl.filter, showInOpen: true}],
-        customQuestionSelects:  [
-            {key:"category", label: 'Category', options: [{key:"1", label:"Uno"},{key:"2", label:"dos"},{key:"3", label:"tres"},{key:"4", label:"4"}], required: false},
-            {key:"category2", label: 'Category2', options: [{key:"1", label:"Uno"},{key:"2", label:"dos"},{key:"3", label:"tres"},{key:"4", label:"4"}]}
-        ],
-        elementTypes: ['question', 'image']*/
-    };
-    ctrl.formStatus= {};
-    ctrl.responseData={};
-
-        var responseData =   {
-            "e2473fd90ef36ab5bae5f0a33cf01ea3": {
-              "answer": 10
-            },
-            "17079f62650f74b378b1436aefbba299": {
-              "answer": "Bob"
-            },
-            "4775dc2cbdc8da2e63811caf9bac33f5": {
-              "answer": "2016-05-20T07:00:00.000Z"
-            },
-            "671fd9130b1e7ead23dd2e90555474c9": {
-              "answer": "1970-01-01T12:00:00.000Z"
-            },
-            "67e855cec05b1c93ff57d376d798ec45": {
-              "answer": "bob@bob.com"
-            },
-            "a333d8d16ee02341e72eb94629abfd98": {
-              "answer": "18"
-            },
-            "15c42f5d490d68abf3c48e790ed508d6": {
-              "answer": "http://bob.com"
-            },
-            "4c39312a94e066a856a195753832de05": {
-              "answer": "Bobbing for Apples"
-            },
-            "b6f584afe412f506eb56e922d84322e5": {
-              "36683a4385337df9ab6b580207272b5b": "223bbfa4fecc0900f21c8a79ead634a2",
-              "a5b1523d67c878e149d86f0ffe4bbc1b": "1f1b13a99fa798fc5deedb1238e0d92c"
-            },
-            "3643ebd79db7a48115058b5ce75a74c8": {
-              "priorityList": [
-                {
-                  "priority": 1,
-                  "id": "68ce06f38d686faaa56b63b9d24d2a86"
-                },
-                {
-                  "priority": 2,
-                  "id": "3424ad4e994547d0a251f7135df35306"
-                }
-              ]
-            },
-            "be2f2711c2c5f869fa636fde360a9455": {
-              "selectedAnswer": "589eabfe8af7673375f137eca83f194d"
-            },
-            "719ef4f8afc21bf07ecfcd81b077d7b0": {
-              "selectedAnswers": [
-                "992d824c43e4032b297a959bb2b0e925",
-                "451cfffbb07ab6f201a08e3be739d534",
-                "c2a18d282713ea602f31073626f15ed5"
-              ]
-            },
-            "bcaf100bc048236e2939fe71cae38fb3": {
-              "beddb9695d2b814d859ace81c26a58c7": 60,
-              "2699c939c2b1596030a6aba4edbbdafb": 40
-            }
-          }
-
-      ctrl.responseData = responseData;
-
-      var templateData = {
-          "price": 1.13,
-          "noAnswer" : "no",
-          "person": {
-              "name": "Bob",
-              "age": 33
-          },
-          "templateData": "from template"
-      }
-
-
-    ctrl.templateData =   templateData;
-
-    ctrl.showResponseRata=false;
-
-
-    ctrl.saveResponse = function(){
-        var d = $q.defer();
-        var res = confirm("Response save success?");
-        if(res){
-            d.resolve(true);
-        }else{
-            d.reject();
-        }
-        return d.promise;
-    };
-
-    ctrl.onImageSelection = function (){
-
-        var d = $q.defer();
-        var src = prompt("Please enter image src");
-        if(src !=null){
-            d.resolve(src);
-        }else{
-            d.reject();
-        }
-
-        return d.promise;
-    };
-
-    ctrl.resetViewer = function(){
-        if(ctrl.formViewer.reset){
-            ctrl.formViewer.reset();
-        }
-
-    };
-
-    ctrl.resetBuilder= function(){
-        if(ctrl.formBuilder.reset){
-            ctrl.formBuilder.reset();
-        }
-    };
-
-    ctrl.changeLanguage = function (languageKey) {
-        $translate.use(languageKey);
-    };
-
-    ctrl.getMerged=function(){
-        return mwFormResponseUtils.mergeFormWithResponse(ctrl.formData, ctrl.responseData);
-    };
-
-    ctrl.getQuestionWithResponseList=function(){
-        return mwFormResponseUtils.getQuestionWithResponseList(ctrl.formData, ctrl.responseData);
-    };
-    ctrl.getResponseSheetRow=function(){
-        return mwFormResponseUtils.getResponseSheetRow(ctrl.formData, ctrl.responseData);
-    };
-    ctrl.getResponseSheetHeaders=function(){
-        return mwFormResponseUtils.getResponseSheetHeaders(ctrl.formData, ctrl.headersWithQuestionNumber);
-    };
-
-    ctrl.getResponseSheet=function(){
-        return mwFormResponseUtils.getResponseSheet(ctrl.formData, ctrl.responseData, ctrl.headersWithQuestionNumber);
-    };
-
-}]);
-
-
-
 
 
 
@@ -307,6 +43,10 @@ app.controller('AdminController', ["$scope", "UsersService", "ModalService",
         }
       });
     };
+
+
+
+
 }]);
 
 /* *********************************************************************************** */
@@ -325,11 +65,150 @@ app.controller('ModalController', ["$scope", "close",
 /* *********************************************************************************** */
 /* *********************************************************************************** */
 
-app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state",
-  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state) {
+app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils",
+  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils) {
     $scope.surveys;
     $scope.editingSurvey;
     $scope.surveyJSON;
+
+    var ctrl = this;
+    ctrl.mergeFormWithResponse = true;
+    ctrl.cgetQuestionWithResponseList = true;
+    ctrl.cgetResponseSheetHeaders = true;
+    ctrl.cgetResponseSheetRow = true;
+    ctrl.cgetResponseSheet = true;
+    ctrl.headersWithQuestionNumber = true;
+    ctrl.builderReadOnly = false;
+    ctrl.viewerReadOnly = false;
+    ctrl.languages = ['en', 'pl', "es"];
+    ctrl.formData = null;
+
+    var formData = {}
+
+
+        ctrl.formData = formData;
+
+        ctrl.formBuilder={};
+        ctrl.formViewer = {};
+        ctrl.formOptions = {
+            autoStart: false
+        };
+        ctrl.optionsBuilder={
+            /*elementButtons:   [{title: 'My title tooltip', icon: 'fa fa-database', text: '', callback: ctrl.callback, filter: ctrl.filter, showInOpen: true}],
+            customQuestionSelects:  [
+                {key:"category", label: 'Category', options: [{key:"1", label:"Uno"},{key:"2", label:"dos"},{key:"3", label:"tres"},{key:"4", label:"4"}], required: false},
+                {key:"category2", label: 'Category2', options: [{key:"1", label:"Uno"},{key:"2", label:"dos"},{key:"3", label:"tres"},{key:"4", label:"4"}]}
+            ],
+            elementTypes: ['question', 'image']*/
+        };
+        ctrl.formStatus= {};
+        ctrl.responseData={};
+
+            var responseData =  {}
+
+
+          ctrl.responseData = responseData;
+
+          var templateData = {}
+
+
+        ctrl.templateData =   templateData;
+
+        ctrl.showResponseRata=false;
+
+
+        ctrl.saveResponse = function(){
+            var d = $q.defer();
+            var res = confirm("Response save success?");
+            if(res){
+                d.resolve(true);
+            }else{
+                d.reject();
+            }
+            return d.promise;
+        };
+
+        ctrl.onImageSelection = function (){
+
+            var d = $q.defer();
+            var src = prompt("Please enter image src");
+            if(src !=null){
+                d.resolve(src);
+            }else{
+                d.reject();
+            }
+
+            return d.promise;
+        };
+
+        ctrl.resetViewer = function(){
+            if(ctrl.formViewer.reset){
+                ctrl.formViewer.reset();
+            }
+
+        };
+
+        ctrl.resetBuilder= function(){
+            if(ctrl.formBuilder.reset){
+                ctrl.formBuilder.reset();
+            }
+        };
+
+        ctrl.changeLanguage = function (languageKey) {
+            $translate.use(languageKey);
+        };
+
+        ctrl.getMerged=function(){
+            return mwFormResponseUtils.mergeFormWithResponse(ctrl.formData, ctrl.responseData);
+        };
+
+        ctrl.getQuestionWithResponseList=function(){
+            return mwFormResponseUtils.getQuestionWithResponseList(ctrl.formData, ctrl.responseData);
+        };
+        ctrl.getResponseSheetRow=function(){
+            return mwFormResponseUtils.getResponseSheetRow(ctrl.formData, ctrl.responseData);
+        };
+        ctrl.getResponseSheetHeaders=function(){
+            return mwFormResponseUtils.getResponseSheetHeaders(ctrl.formData, ctrl.headersWithQuestionNumber);
+        };
+
+        ctrl.getResponseSheet=function(){
+            return mwFormResponseUtils.getResponseSheet(ctrl.formData, ctrl.responseData, ctrl.headersWithQuestionNumber);
+        };
+
+        $scope.dismissEdit = function() {
+          $scope.editingSurvey = undefined;
+          $scope.surveyJSON = undefined;
+        };
+
+        $scope.createSurvey = function() {
+          ctrl.formData = null;
+
+        };
+
+        $scope.viewSurvey = function(survey) {
+          $state.go('admin.surveys' + survey.id)
+        };
+
+        $scope.deleteSurvey = function(survey) {
+          ModalService.showModal({
+            templateUrl: "/partials/admin/delete_survey_modal.html",
+            controller: "ModalController",
+          }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+              if (result === "DELETE") {
+                // TODO: Is this a good idea?  Would we ever want to do this?
+                //AdminService.deleteServey(survey.id).then(function() {
+                $scope.surveys = $scope.surveys.filter(function(s) {
+                  return s.id !== survey.id;
+                });
+                //});
+              }
+            });
+          });
+        };
+
 
     SurveysService.all(true).then(function(data) {
       $scope.surveys = data;
@@ -372,6 +251,10 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 
     $scope.createSurvey = function() {
       $state.go('admin.new_survey')
+    };
+
+    $scope.viewSurvey = function(survey) {
+      $state.go('admin.surveys' + survey)
     };
 
     $scope.deleteSurvey = function(survey) {
