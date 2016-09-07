@@ -47,19 +47,12 @@ node server/db/migrate.js rollback
 
 ### Creating Migrations
 
-__TODO:__ fix ```make-migrations.js``` for single database.
-
-To create new migrations for the **users** database, run:
+To create new migrations for the database, run:
 
 ```
-node server/db/make-migration.js users migration-name
+knex migrate:make <migration-name> --knexfile ./server/config/db.js
 ```
-
-To create new migrations for the **surveys** database, run:
-
-```
-node server/db/make-migration.js surveys migration-name
-```
+__TODO: then move the file to the correct directory!__
 
 ### Creating and Seeding the Database:
 
