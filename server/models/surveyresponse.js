@@ -3,5 +3,8 @@ var bookshelf = require('../config/connection');
 
 module.exports = bookshelf.model('SurveyResponse', {
     tablename: 'surveyresponses',
-    hasTimestamps: true
+    hasTimestamps: true,
+    survey: function() {
+	return this.belongsTo('SurveyModel');
+    }
 });
