@@ -15,7 +15,10 @@ router.post('/', function(req, res) {
 	recorded_time: recorded_time,
 	response: response
     }).save().then(function(model) {
-	res.json({valid: true});
+	res.json({
+	    valid: true,
+	    id: model.id
+	});
     }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({valid: false, error: err.message || err});
@@ -25,7 +28,9 @@ router.post('/', function(req, res) {
 // fetch survey response
 router.get('/:id', function(req, res) {
     var id = req.params.id;
-    SurveyResponse.fetch(id).then(res.json).catch(function(err) {
+    SurveyResponse.fetch(id).then(function(data) {
+	res.json(data);
+    }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({valid: false, error: err.message || err});
     });
@@ -33,7 +38,9 @@ router.get('/:id', function(req, res) {
 
 // list survey responses
 router.get('/', function(req, res) {
-    SurveyResponse.fetchAll().then(res.json).catch(function(err) {
+    SurveyResponse.fetchAll().then(function(data) {
+	res.json(data);
+    }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({valid: false, error: err.message || err});
     });
