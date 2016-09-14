@@ -4,7 +4,9 @@ var SurveyModel = require('../../../models/surveymodel');
 
 // fetch all survey models
 router.get('/', function(req, res) {
-    SurveyModel.fetchAll().then(res.json).catch(function(err) {
+    SurveyModel.fetchAll().then(function(data) {
+	res.json(data);
+    }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({valid: false, error: err.message || err});
     });
@@ -13,7 +15,9 @@ router.get('/', function(req, res) {
 // fetch survey model
 router.get('/:id', function(req, res) {
     var id = req.params.id;
-    SurveyModel.fetch(id).then(res.json).catch(function(err) {
+    SurveyModel.fetch(id).then(function(data) {
+	res.json(data);
+    }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({
 	    valid: false,

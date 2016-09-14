@@ -240,6 +240,9 @@ app.config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpP
 			templateUrl: '/partials/surveys/show.html',
 			controller: 'AdminSurveysController',
 			resolve: {
+			    testing: function() {
+				return "testing";
+			    },
 			    formData: function() {
 				return {
 				    "name": "form name",
