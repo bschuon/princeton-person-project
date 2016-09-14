@@ -67,6 +67,13 @@ app.controller('ModalController', ["$scope", "close",
 
 app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils",
 					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils) {
+					      var survey_id = $state.params.survey_id;
+					      if (!!survey_id) {
+						  SurveysService.surveyModel(survey_id).then(function(data) {
+						      ctrl.formData = data.survey;
+						  })
+					      }
+
 					      $scope.surveys;
 					      $scope.editingSurvey;
 					      $scope.surveyJSON;
