@@ -15,8 +15,8 @@ router.get('/', function(req, res) {
 // fetch survey model
 router.get('/:id', function(req, res) {
     var id = req.params.id;
-    SurveyModel.fetch(id).then(function(data) {
-	res.json(data);
+    new SurveyModel({id: id}).fetch().then(function(data) {
+	res.json(data.attributes);
     }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({

@@ -106,10 +106,9 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 						  "description": "Form description "
 					      };
 								ctrl.formData = formData;
-
-		}
-					      // ctrl.formData = formData;
-
+		} else{
+ctrl.formData = $scope.currentSurvey
+}
 					      ctrl.formBuilder= {};
 					      ctrl.formViewer = {};
 					      ctrl.formOptions = {
@@ -133,7 +132,6 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      ctrl.templateData =   templateData;
 
 					      ctrl.showResponseRata=false;
-
 
 					      ctrl.saveSurvey = function(){
 						  return $http.post("/api/v1/admin/surveymodels", {
@@ -205,9 +203,10 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
               };
 
 					      $scope.viewSurvey = function(survey) {
+
 								  $scope.currentSurvey = survey
 									ctrl.formData = survey.survey
-								  $state.go('admin.show_survey', {survey_id: survey.id})
+
 					      };
 
 
@@ -222,6 +221,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 
 						  		});
 										var formData = $scope.currentSurvey.survey
+
 					      };
 
 					    $scope.newSurvey = function() {
@@ -240,8 +240,8 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      }
 
 					      $scope.dismissEdit = function() {
-						  $scope.editingSurvey = undefined;
-						  $scope.surveyJSON = undefined;
+							  $scope.editingSurvey = undefined;
+							  $scope.surveyJSON = undefined;
 					      };
 
 					      $scope.createSurvey = function() {

@@ -28,8 +28,9 @@ router.post('/', function(req, res) {
 // fetch survey response
 router.get('/:id', function(req, res) {
     var id = req.params.id;
-    SurveyResponse.fetch(id).then(function(data) {
-	res.json(data);
+    console.log(JSON.stringify({id: id}));
+    new SurveyResponse({id: id}).fetch().then(function(data) {
+	res.json(data.attributes);
     }).catch(function(err) {
 	console.log(err);
 	res.status(500).json({valid: false, error: err.message || err});
