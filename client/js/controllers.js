@@ -134,7 +134,6 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 
 					      ctrl.showResponseRata=false;
 
-
 					      ctrl.saveSurvey = function(){
 						  return $http.post("/api/v1/admin/surveymodels", {
 						      survey: ctrl.formData,
@@ -212,14 +211,15 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      };
 
 
-					      SurveysService.all(true).then(function(data) {
+					      SurveysService.surveyModels().then(function(data) {
 						  $scope.surveys = data;
 					      });
 
 					      $scope.showSurvey = function(survey) {
 						  $scope.editingSurvey = true;
-						  SurveyItemsService.find(survey.id).then(function(items) {
-						      var surveyJSON = {survey: survey, groups: []};
+						  SurveysService.surveyModel(survey.id).then(function(items) {
+						      ctrl.formData = data.survey;
+						      var surveyJSON = {survey: data.survey, groups: []};
 						      if (!items) { $scope.surveyJSON = surveyJSON; }
 						      else {
 							  surveyJSON.survey.version_id = items.version_id;
