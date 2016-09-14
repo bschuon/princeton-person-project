@@ -136,13 +136,17 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 
         ctrl.saveSurvey = function(){
 	    return $http.post("/api/v1/admin/surveymodels", {
-		response: {
-		    survey: ctrl.formData,
-		    version: 1,
-		    estimated_time: 600
+		survey: ctrl.formData,
+		version_id: 1,
+		estimated_time: 600
+	    }).then(function(res) {
+		if (!res.data) {
+		    alert("unknown error");
+		} else if (!res.data.valid) {
+		    alert(res.data.error);
+		} else {
+		    window.location.href = "/admin/surveys/" + res.data.id;
 		}
-	    }).then(function(data) {
-		window.location.href = "/admin/surveys";
 	    });
         };
 
