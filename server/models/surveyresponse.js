@@ -1,10 +1,11 @@
 var bookshelf = require('../config/connection');
+var SurveyModel = require('./surveymodel');
 
 
 module.exports = bookshelf.model('SurveyResponse', {
-    tablename: 'surveyresponses',
+    tableName: 'surveyresponses',
     hasTimestamps: true,
-    survey: function() {
-	return this.belongsTo('SurveyModel');
+    surveyModel: function() {
+	return this.belongsTo(SurveyModel);
     }
 });
