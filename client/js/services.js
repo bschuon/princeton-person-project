@@ -227,7 +227,13 @@ app.factory('SurveysService', ["$http",
       });
     },
 
-    surveyModel: function () {
+    surveyModel: function (survey_id) {
+      return $http.get(url + '/surveymodels/'+ survey_id).then(function (response) {
+        return response.data;
+      })
+    },
+
+    surveyModels: function () {
       return $http.get(url + '/surveymodels').then(function (response) {
         return response.data;
       })

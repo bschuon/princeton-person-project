@@ -65,13 +65,12 @@ app.controller('ModalController', ["$scope", "close",
 /* *********************************************************************************** */
 /* *********************************************************************************** */
 
-app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils", "testing",
-					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils, testing) {
-					      alert(testing);
+app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils",
+					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils) {
 					      $scope.surveys;
 					      $scope.editingSurvey;
 					      $scope.surveyJSON;
-					      $scope.currentSurvey = {};
+					      $scope.currentSurvey;
 
 					      var ctrl = this;
 					      ctrl.mergeFormWithResponse = true;
@@ -83,11 +82,9 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      ctrl.builderReadOnly = false;
 					      ctrl.viewerReadOnly = false;
 					      ctrl.languages = ['en', 'pl', "es"];
-					      ctrl.formData = {};
+					      ctrl.formData;
 
-
-
-
+								if (typeof $scope.currentSurvey == 'undefined') {
 					      var formData = {
 						  "name": "form name",
 						  "description": "description",
@@ -108,8 +105,10 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 						  "name": "Form name",
 						  "description": "Form description "
 					      };
+								ctrl.formData = formData;
 
-					      ctrl.formData = formData;
+		}
+					      // ctrl.formData = formData;
 
 					      ctrl.formBuilder= {};
 					      ctrl.formViewer = {};
@@ -200,39 +199,32 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 						  return mwFormResponseUtils.getResponseSheet(ctrl.formData, ctrl.responseData, ctrl.headersWithQuestionNumber);
 					      };
 
-					      $scope.dismissEdit = function() {
-						  $scope.editingSurvey = undefined;
-						  $scope.surveyJSON = undefined;
-					      };
-
-
+					    $scope.dismissEdit = function() {
+							  $scope.editingSurvey = undefined;
+							  $scope.surveyJSON = undefined;
+              };
 
 					      $scope.viewSurvey = function(survey) {
-						  $scope.currentSurvey = survey
-						  $state.go('admin.show_survey', {survey_id: survey.id})
+								  $scope.currentSurvey = survey
+									ctrl.formData = survey.survey
+								  $state.go('admin.show_survey', {survey_id: survey.id})
 					      };
 
 
-					      SurveysService.surveyModel().then(function(data) {
+					      SurveysService.surveyModels().then(function(data) {
 						      $scope.surveys = data;
 					      });
 
 					      $scope.showSurvey = function(survey) {
-						  $scope.editingSurvey = true;
-						  SurveyItemsService.find(survey.id).then(function(items) {
-						      var surveyJSON = {survey: survey, groups: []};
-						      if (!items) { $scope.surveyJSON = surveyJSON; }
-						      else {
-							  surveyJSON.survey.version_id = items.version_id;
-							  surveyJSON.survey.status = items.status;
-							  surveyJSON.survey.algorithm = items.algorithm;
-							  surveyJSON.groups = items.groups || [];
-							  $scope.surveyJSON = surveyJSON;
-						      }
-						  });
+								  	$scope.editingSurvey = true;
+										$scope.currentSurvey = SurveysService.surveyModel(survey.id).then(function(data) {
+								    		$scope.surveys = data;;
+
+						  		});
+										var formData = $scope.currentSurvey.survey
 					      };
 
-					      $scope.newSurvey = function() {
+					    $scope.newSurvey = function() {
 						  $scope.surveyJSON = {survey:
 								       {name: "",
 									est_completion_time_minutes: 20,
@@ -254,7 +246,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 
 					      $scope.createSurvey = function() {
 
-						  $state.go('admin.new_survey')
+						  		$state.go('admin.new_survey')
 					      };
 
 

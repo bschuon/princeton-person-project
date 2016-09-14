@@ -11,6 +11,10 @@
                 <label>Description</label>
                 <textarea msd-elastic class="form-control" name="formDescription" ng-model="ctrl.formData.description" id="formDescription" ng-readonly="ctrl.readOnly"/>
             </div>
+            <div class="form-group">
+                <label>Value</label>
+                <input type="number" name="formValue" min="1" max="100">
+            </div>
         </div>
 
 
@@ -52,7 +56,6 @@
 
             </div>
         </div>
-        <mw-form-confirmation-page-builder form-object="ctrl.formData" read-only="ctrl.readOnly"></mw-form-confirmation-page-builder>
     </form>
 
 </div>

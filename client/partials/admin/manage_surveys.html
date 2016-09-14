@@ -12,12 +12,14 @@
     </th>
     <th>Edit</th>
     <th>Delete</th>
-    <th> viewer </th>
+    <th> Viewer </th>
+    <th> Value </th>
   </tr>
   <tr ng-repeat="survey in surveys | orderBy: survey.name">
-    <td>{{survey.name}}</td>
+    <td>{{survey.survey.name}}</td>
     <td><button type="button" class="btn btn-default" ng-click="showSurvey(survey)">Edit</button></td>
     <td><button type="button" class="btn btn-default" ng-click="deleteSurvey(survey)">Delete</button></td>
     <td><button type="button" class="btn btn-default" ng-click="viewSurvey(survey)">Viewer</button></td>
+    <td></td>
   </tr>
 </table>
