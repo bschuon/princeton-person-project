@@ -134,8 +134,16 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
         ctrl.showResponseRata=false;
 
 
-        ctrl.saveResponse = function(){
-
+        ctrl.saveSurvey = function(){
+	    return $http.post("/api/v1/admin/surveymodels", {
+		response: {
+		    survey: ctrl.formData,
+		    version: 1,
+		    estimated_time: 600
+		}
+	    }).then(function(data) {
+		window.location.href = "/admin/surveys";
+	    });
         };
 
         ctrl.onImageSelection = function (){
