@@ -212,8 +212,8 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      };
 
 
-					      SurveysService.all(true).then(function(data) {
-						  $scope.surveys = data;
+					      SurveysService.surveyModel().then(function(data) {
+						      $scope.surveys = data;
 					      });
 
 					      $scope.showSurvey = function(survey) {
