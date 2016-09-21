@@ -65,12 +65,13 @@ app.controller('ModalController', ["$scope", "close",
 /* *********************************************************************************** */
 /* *********************************************************************************** */
 
-app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils",
-					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils) {
+app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils", '$location',
+					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils, $location) {
 					      var survey_id = $state.params.survey_id;
 					      if (!!survey_id) {
 						  SurveysService.surveyModel(survey_id).then(function(data) {
 						      ctrl.formData = data.survey;
+									ctrl.formData.id = survey_id
 						  })
 					      }
 
@@ -91,7 +92,7 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      ctrl.languages = ['en', 'pl', "es"];
 					      ctrl.formData;
 
-								if (typeof $scope.currentSurvey == 'undefined') {
+								// if (typeof $scope.currentSurvey == 'undefined') {
 					      var formData = {
 						  "name": "form name",
 						  "description": "description",
@@ -113,9 +114,11 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 						  "description": "Form description "
 					      };
 								ctrl.formData = formData;
-		} else{
-ctrl.formData = $scope.currentSurvey
-}
+// 		} else{
+// ctrl.formData = $scope.currentSurvey
+// }
+
+
 					      ctrl.formBuilder= {};
 					      ctrl.formViewer = {};
 					      ctrl.formOptions = {
@@ -141,10 +144,10 @@ ctrl.formData = $scope.currentSurvey
 					      ctrl.showResponseRata=false;
 
 					      ctrl.saveSurvey = function(){
-						  return $http.post("/api/v1/admin/surveymodels", {
-						      survey: ctrl.formData,
-						      version_id: 1,
-						      estimated_time: 600
+									  return $http.post("/api/v1/admin/surveymodels", {
+									      survey: ctrl.formData,
+									      version_id: 1,
+									      estimated_time: 600
 						  }).then(function(res) {
 						      if (!res.data) {
 							  alert("unknown error");
@@ -155,6 +158,22 @@ ctrl.formData = $scope.currentSurvey
 						      }
 						  });
 					      };
+
+								ctrl.updateSurveyModel= function(){
+									return $http.post("/api/v1/admin/surveymodels/" + ctrl.formData.id , {
+											survey: ctrl.formData,
+											version_id: 1,
+											estimated_time: 600
+									}).then(function(res) {
+											if (!res.data) {
+										alert("unknown error");
+											} else if (!res.data.valid) {
+										alert(res.data.error);
+											} else {
+										window.location.href = "/admin/surveys/" + res.data.id;
+											}
+									});
+			};
 
 					      ctrl.onImageSelection = function (){
 
@@ -210,10 +229,9 @@ ctrl.formData = $scope.currentSurvey
               };
 
 					      $scope.viewSurvey = function(survey) {
-
 								  $scope.currentSurvey = survey
 									ctrl.formData = survey.survey
-
+									$location.path('/admin/surveys/' + survey.id);
 					      };
 
 
@@ -225,13 +243,14 @@ ctrl.formData = $scope.currentSurvey
 								  	$scope.editingSurvey = true;
 										$scope.currentSurvey = SurveysService.surveyModel(survey.id).then(function(data) {
 								    		$scope.surveys = data;;
-
 						  		});
+
 										var formData = $scope.currentSurvey.survey
 
 					      };
 
 					    $scope.newSurvey = function() {
+
 						  $scope.surveyJSON = {survey:
 								       {name: "",
 									est_completion_time_minutes: 20,

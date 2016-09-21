@@ -43,7 +43,7 @@ router.post('/:id', function(req, res) {
 	    model: model
 	});
     }).catch(function(err) {
-	console.log(err);
+console.log(err)
 	res.status(500).json({valid: false, error: err.message || err});
     });
 });
