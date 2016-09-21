@@ -44,9 +44,10 @@
                             </pre>
                         </uib-tab>
                         <uib-tab  heading="Model">
-                            <pre>
-                                {{ctrl.formData|json}}
-                            </pre>
+                          <div><button type="button" style="margin-bottom: 15px" class="btn btn-default" ng-click="ctrl.saveSurveyJson()">Save</button></div>
+
+                          <textarea ng-model="textModel" id="myTextArea" cols=50 rows=30></textarea>
+
                         </uib-tab>
                     </uib-tabset>
 

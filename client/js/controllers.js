@@ -68,10 +68,13 @@ app.controller('ModalController', ["$scope", "close",
 app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyItemsService", "ModalService", "AdminService", "$state", "$q","$http","$translate","mwFormResponseUtils", '$location',
 					  function($scope, SurveysService, SurveyItemsService, ModalService, AdminService, $state, $q,$http, $translate, mwFormResponseUtils, $location) {
 					      var survey_id = $state.params.survey_id;
+
 					      if (!!survey_id) {
 						  SurveysService.surveyModel(survey_id).then(function(data) {
 						      ctrl.formData = data.survey;
-									ctrl.formData.id = survey_id
+									ctrl.surveyId = survey_id
+									$scope.textModel = angular.toJson(ctrl.formData)
+
 						  })
 					      }
 
@@ -79,6 +82,8 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      $scope.editingSurvey;
 					      $scope.surveyJSON;
 					      $scope.currentSurvey;
+								$scope.textModel;
+
 
 					      var ctrl = this;
 					      ctrl.mergeFormWithResponse = true;
@@ -160,8 +165,11 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 					      };
 
 								ctrl.updateSurveyModel= function(){
-									return $http.post("/api/v1/admin/surveymodels/" + ctrl.formData.id , {
-											survey: ctrl.formData,
+									var survey = angular.element('#myTextArea').val();
+									var id = ctrl.surveyId
+									ctrl.formData = survey
+									return $http.post("/api/v1/admin/surveymodels/"+ id , {
+											survey: survey,
 											version_id: 1,
 											estimated_time: 600
 									}).then(function(res) {
@@ -170,10 +178,28 @@ app.controller('AdminSurveysController', ["$scope", "SurveysService", "SurveyIte
 											} else if (!res.data.valid) {
 										alert(res.data.error);
 											} else {
-										window.location.href = "/admin/surveys/" + res.data.id;
+										window.location.href = "/admin/surveys/" + res.data.model.id;
 											}
 									});
-			};
+									};
+
+								ctrl.saveSurveyJson= function(){
+									var survey = angular.element('#myTextArea').val();
+									return $http.post("/api/v1/admin/surveymodels" , {
+											survey: survey,
+											version_id: 1,
+											estimated_time: 600
+									}).then(function(res) {
+debugger;
+											if (!res.data) {
+										alert("unknown error");
+											} else if (!res.data.valid) {
+										alert(res.data.error);
+											} else {
+										window.location.href = "/admin/surveys"
+											}
+									});
+							};
 
 					      ctrl.onImageSelection = function (){
 
