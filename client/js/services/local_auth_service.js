@@ -5,8 +5,13 @@ app.factory('LocalAuthService', [
     var isAuthenticated = function() {
       return (user !== undefined && user.id !== undefined && user.username && user.admin !== undefined);
     };
+    var isBootstrapped = CONFIG.isBootstrapped;
     return {
       isAuthenticated: isAuthenticated,
+      isBootstrapped: isBootstrapped,
+      setBootstrapped: function() {
+	isBootstrapped = true;
+      },
       setUserInfo: function(userInfo) {
 	if (userInfo && userInfo.username && userInfo.admin !== undefined) {
           user = userInfo;

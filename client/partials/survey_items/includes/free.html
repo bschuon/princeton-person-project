@@ -1,6 +1,0 @@
-<div ng-repeat='question in group.questions'>
-  {{question.data.text}}
-  <div ng-repeat='field in question.fields | orderBy: "+position"'>
-    <div ng-include="'/partials/survey_items/includes/' + field.widget + '.html'"></div>
-  </div>
-</div>

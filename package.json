@@ -13,7 +13,7 @@
     "protractor": "./node_modules/.bin/protractor test/protractor-conf.js"
   },
   "dependencies": {
-    "bcryptjs": "^2.2.0",
+    "bcrypt": "^0.8.7",
     "bluebird": "^2.9.34",
     "body-parser": "~1.12.4",
     "bookshelf": "^0.8.1",

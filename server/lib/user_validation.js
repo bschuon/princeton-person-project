@@ -1,5 +1,5 @@
 var User = require('../models/user');
-var bcrypt = require('bcryptjs');
+var bcrypt = require('bcrypt');
 
 module.exports = {
   errors: function(user) {
@@ -23,6 +23,6 @@ module.exports = {
                              orWhere: {email: usernameOrEmail}}).fetch();
   },
   checkPassword: function (input, record) {
-    return bcrypt.compareSync(input, record.hashed_pass)
+    return bcrypt.compareSync(input, record.hashed_pass);
   }
-}
+};

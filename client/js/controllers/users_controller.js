@@ -38,12 +38,6 @@ app.controller('UsersController', [
       });
     };
 
-    $scope.logout = function () {
-      UsersService.logout().finally(function() {
-	$location.path("/");
-      });
-    };
-
     $scope.signin = function () {
       UsersService.signin($scope.view.loginInfo).then(function(response) {
 	if(LocalAuthService.isAuthenticated()){
@@ -72,8 +66,8 @@ app.controller('UsersController', [
     $scope.delete = function(user) {
       var success_url = 'admin/users';
       var fail_url = 'admin/users';
-      UsersService.destroy(user).then(function (response) {
-	return response ? $location.path(success_url) : $location.path(fail_url)
+      UsersService.destroy(user).then(function(response) {
+	return response ? $location.path(success_url) : $location.path(fail_url);
       });
     };
   }

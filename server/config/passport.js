@@ -1,11 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var oauthConfig = require('../config/oauth');
 var User = require('../models/user');
-var createUser = require('../lib/create_user');
-var createFBUser = require('../lib/create_facebook_user');
 var validate = require('../lib/user_validation');
-
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -14,10 +9,8 @@ module.exports = function(passport) {
       id: user.attributes.id,
       username: user.attributes.username,
       admin: user.attributes.admin,
-      facebook_user_info: user.attributes.facebook_user_info,
-      completed_demographics: user.attributes.completed_demographics,
       email: user.attributes.email
-    }
+    };
   }
   // used to serialize the user for the session
   passport.serializeUser(function(user, done) {
@@ -34,84 +27,43 @@ module.exports = function(passport) {
       }
     }).catch(function(err) {
       done(err, null);
-    })
+    });
   });
 
   // Local signup.  Used for creating a user, no
   passport.use('local-signup', new LocalStrategy({
     passReqToCallback : true
-  },
-    function(req, username, password, done) {
-      validate.userExists(username).then(function(results) {
-        if (results) {
-          return done(null, false, {error: 'Incorrect username or password'});
-        } else {
-          createUser(username, password, req.body.email).then(function (user) {
-            return done(null, user.attributes, {success: "Logging in"});
-          }).catch(function(error) {
-            return done(error);
-          })
-        }
+  }, function(req, username, password, done) {
+    validate.userExists(username).then(function(results) {
+      if (results) {
+	return done(null, false, {error: 'Incorrect username or password'});
+      }
+      var hashed_pass = bcrypt.hashSync(password, 8);
+      return new User({
+	username: username,
+	hashed_password: hashed_pass,
+	email: req.body.email
+      }).save().then(function (user) {
+	return done(null, user.attributes, {success: "Logging in"});
       }).catch(function(error) {
-        return done(error);
+	return done(error);
       });
-    }
-  ));
-
+    }).catch(function(error) {
+      return done(error);
+    });
+  }));
+  
   passport.use('local-signin', new LocalStrategy({
     passReqToCallback : true
-  },
-    function(req, username, password, done) {
-      validate.userOrEmailExists(username).then(function(user) {
-        if (user && validate.checkPassword(password, user.attributes)) {
-          return done(null, user.attributes, {success: "Logged in"});
-        } else {
-          return done(null, false, {error: 'Incorrect username or password'});
-        }
-      }).catch(function(error) {
-        return done(error);
-      });
-    }
-  ));
-
-  if (!(oauthConfig.facebook.clientID && oauthConfig.facebook.clientSecret &&
-        oauthConfig.facebook.callbackURL) &&
-      !process.env.SKIP_FACEBOOK_STRATEGY) {
-    throw new Error("ERROR: FB_CLIENT_ID environment variable missing.  Add the environment variable or set the SKIP_FACEBOOK_STRATEGY environment variable to true");
-  } else if (oauthConfig.facebook.clientID &&
-             oauthConfig.facebook.clientSecret &&
-             oauthConfig.facebook.callbackURL) {
-    passport.use(new FacebookStrategy({
-      clientID        : oauthConfig.facebook.clientID,
-      clientSecret    : oauthConfig.facebook.clientSecret,
-      callbackURL     : oauthConfig.facebook.callbackURL,
-      profileFields: ['id', 'displayName', 'name', 'gender', 'profileUrl', 'emails']
-    },
-      function(token, refreshToken, profile, done) {
-        if (token && profile.id) {
-          new User({facebook_id: profile.id}).fetch().then(function(model) {
-            if (model && model.get('facebook_id')) {
-              done(null, userToJSON(model));
-            } else {
-              profile.name.displayName = profile.displayName;
-              if (profile.emails && profile.emails.length > 0) {
-                profile.name.email = profile.emails[0].value;
-              }
-              createFBUser(profile.id, token, profile.name).then(function(model) {
-                done(null, userToJSON(model));
-              }).catch(function(error) {
-                console.log("Error: could not signin using facebook strategy", error);
-                done(error);
-              });
-            }
-          }).catch(function(error) {
-            console.log("Error: could not signin using facebook strategy", error);
-            done(error);
-          });
-        } else {
-          done(null, false);
-        }
+  }, function(req, username, password, done) {
+    validate.userOrEmailExists(username).then(function(user) {
+      if (user && validate.checkPassword(password, user.attributes)) {
+	return done(null, user.attributes, {success: "Logged in"});
+      } else {
+	return done(null, false, {error: 'Incorrect username or password'});
       }
-    ));
-  }
+    }).catch(function(error) {
+      return done(error);
+    });
+  }));
 };

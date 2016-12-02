@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="cta text-center">
+    <h1 id="title" class="text-center">person | project</h1>
+    <br>
+    <br>
+    <button
+       ng-hide="rAuth.isAuthenticated()"
+       class="btn btn-default"
+       ui-sref="user.signin">Login</button>
+    <br>
+    <br>
+    <a class="btn btn-default"
+       ng-hide="rAuth.isAuthenticated()"
+       ui-sref="user.signup">Register Now</a>
+    <br>
+    <br>
+    <button 
+       id="learn-more"
+       ui-sref="about"
+       class="btn btn-default">Learn more</button>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="container text-center">
+  <h2 class="section-title">Our Experiments</h2>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+      <a id="signup-link" ng-hide="rAuth.isAuthenticated()" class="btn btn-default" ng-href="/signup">If you like to save your results, please sign up!</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="surveys col-sm-8 col-sm-offset-2">
+      <div data-ng-repeat="survey in surveys | orderBy: '+position'">
+        <div class="survey-info" ng-controller="SurveyController">
+          <div class="experiment-box col-sm-3" ng-mouseenter="options=true" ng-mouseleave="options=false">
+            <span ng-if='!rAuth.isAuthenticated()'>
+              <h4><a class="survey-title" href='#' ng-click="showConsentModal(survey)">{{survey.name}}</a></h4>
+            </span>
+            <span ng-if='rAuth.isAuthenticated()'>
+              <h4><a class="survey-title" ui-sref="user.survey({survey_id: survey.id, user_id: userId()})">{{survey.name}}</a></h4>
+            </span>
+            <p class="survey-mins">
+              {{survey.est_completion_time_minutes}} minutes
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="surveys col-sm-8 col-sm-offset-2">
+      <a ui-sref="surveys">See all surveys</a>
+    </div>
+  </div>
+</div>
