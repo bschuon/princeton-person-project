@@ -4,6 +4,13 @@ app.config([
     $stateProvider.state('admin', {
       url: '/admin',
       templateUrl: '/partials/admin/layout.html'
+    }).state('admin.surveys', {
+      url: '/surveys',
+      templateUrl: '/partials/admin/surveys/layout.html'
+    }).state('admin.surveys.index', {
+      url: '/',
+      templateUrl: '/partials/admin/surveys/index.html',
+      controller: 'AdminSurveysIndexController'
     }).state('admin.users', {
       url: '/users',
       templateUrl: '/partials/users/index.html',
