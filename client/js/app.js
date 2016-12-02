@@ -43,7 +43,12 @@ app.run([
     $rootScope.CONFIG = CONFIG;
     $rootScope.createAdmin = function(admin) {
       $http.post('/api/v1/bootstrap', admin).then(function() {
-	window.location.href = "/";
+	UsersService.signin({
+	  username: admin.email,
+	  password: admin.password
+	}).then(function() {
+	  window.location.href= "/";
+	});
       });
     };
     $rootScope.goToElement = function(element) {
