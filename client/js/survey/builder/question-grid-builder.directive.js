@@ -18,7 +18,6 @@ angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function() {
         var ctrl = this;
         ctrl.isNewInput = {};
         ctrl.addNewRow=function(noFocus){
-
           var row = {
             id: mwFormUuid.get(),
             orderNo: ctrl.question.grid.rows.length + 1,
@@ -32,7 +31,6 @@ angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function() {
         };
 
         ctrl.addNewCol=function(noFocus){
-
           var col = {
             id: mwFormUuid.get(),
             orderNo: ctrl.question.grid.cols.length + 1,

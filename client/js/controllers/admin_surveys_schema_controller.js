@@ -4,7 +4,6 @@ app.controller('AdminSurveysSchemaController', [
   "survey",
   function($q, $scope, survey) {
     $scope.survey = survey;
-
     $scope.formBuilder = {};
     $scope.formOptions = {
       autoStart: false

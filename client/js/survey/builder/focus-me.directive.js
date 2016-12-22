@@ -22,7 +22,6 @@ angular.module('mwFormBuilder').directive('wdFocusMe', [
   "$timeout",
   "$window",
   function($timeout, $window) {
-    
     return function(id) {
       $timeout(function() {
 	var element = $window.document.getElementById(id);

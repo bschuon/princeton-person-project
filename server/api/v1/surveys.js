@@ -5,7 +5,7 @@ var Survey = require('../../models/survey');
 // fetch all survey models
 router.get('/', function(req, res) {
   Survey.fetchAll().then(function(data) {
-    res.json(data);
+    res.json(data); // TODO: transform data.attributes
   }).catch(function(err) {
     console.log(err);
     res.status(500).json({valid: false, error: err.message || err});
@@ -16,7 +16,46 @@ router.get('/', function(req, res) {
 router.get('/:id', function(req, res) {
   var id = req.params.id;
   new Survey({id: id}).fetch().then(function(data) {
-    res.json(data.attributes);
+    var survey = data.attributes;
+    survey.schema = survey.schema || {
+      name: "todo name",
+      description: "todo description",
+      pages: [
+	{
+	  "id": "16062797c1e9a92a9dbaae5e9ce17d6c",
+	  "number": 1,
+	  "name": null,
+	  "description": null,
+	  "pageFlow": {
+            "nextPage": true,
+            "label": "mwForm.pageFlow.goToNextPage"
+	  },
+	  "elements": [
+            {
+              "id": "e30d62038bb2becbe76cb144dc37472e",
+              "orderNo": 1,
+              "type": "question",
+              "question": {
+		"id": "e2473fd90ef36ab5bae5f0a33cf01ea3",
+		"text": "Enter a number 0-100",
+		"type": "number",
+		"required": true,
+		"pageFlowModifier": false,
+		"min": 0,
+		"max": 100
+              }
+            }
+	  ],
+	  "namedPage": false,
+	  "isFirst": true,
+	  "isLast": true
+	}
+      ]
+    };
+    res.json({
+      valid: true,
+      model: survey
+    });
   }).catch(function(err) {
     console.log(err);
     res.status(500).json({

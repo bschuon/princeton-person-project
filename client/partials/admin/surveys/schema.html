@@ -2,8 +2,18 @@
   <div class="well col-md-12">
     <h3 class="center-block">{{survey.name | uppercase}} <small class="pull-right">[version {{survey.version}}]</small></h3>
     <br>
-    <mw-form-builder api="formBuilder" options="optionsBuilder" form-data="formData" form-status="formStatus" read-only="builderReadOnly" on-image-selection="onImageSelection()"></mw-form-builder>
+    <mw-form-builder
+       api="formBuilder"
+       options="optionsBuilder"
+       form-data="survey.schema"
+       form-status="formStatus"
+       read-only="builderReadOnly"
+       on-image-selection="onImageSelection()"
+       ></mw-form-builder>
 
     <button class="btn pull-right" ui-sref="admin.surveys.show({id: survey.id})">Back</button>
+  </div>
+  <div class="well col-md-12">
+    <pre>{{survey | json}}</pre>
   </div>
 </div>

@@ -16,10 +16,17 @@ app.config([
   "$urlRouterProvider",
   "$locationProvider",
   "$httpProvider",
-  function($urlRouterProvider, $locationProvider, $httpProvider) {
+  "$translateProvider",
+  function($urlRouterProvider, $locationProvider, $httpProvider, $translateProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push("AuthInterceptor");
     $urlRouterProvider.otherwise('/');
+    $translateProvider.useStaticFilesLoader({
+      prefix: '../dist/i18n/',
+      suffix: '/angular-surveys.json'
+    });
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.useSanitizeValueStrategy('sanitize');
   }
 ]);
 
