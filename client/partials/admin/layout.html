@@ -2,13 +2,35 @@
   <div class="page-header">
     <h3>Researcher Dashboard</h3>
   </div>
-
-  <ul class="nav navbar-nav navbar-left">
-    <li><a ui-sref="admin.select_surveys">CSV Download</a></li>
-    <li><a ui-sref="admin.featured">Featured Experiments</a></li>
-    <li><a ui-sref="admin.manage">Manage Admins</a></li>
-    <li class="active"><a class="active" ui-sref="admin.surveys">Manage Surveys</a></li>
+  <div
+     class="col-md-12 alert alert-warning alert-dismissible"
+     role="alert"
+     ng-repeat="error in errors track by $index">
+    <button
+       type="button"
+       class="close"
+       data-dismiss="alert"
+       aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Error:</strong>
+    {{error}}
+  </div>
+  <ul class="nav nav-pills">
+    <li ng-class="{active: $state.includes('admin.surveys')}">
+      <a ui-sref="admin.surveys.index">Surveys</a>
+    </li>
+    <li ng-class="{active: $state.includes('admin.responses')}">
+      <a ui-sref="admin.responses.index">Responses</a>
+    </li>
+    <li ng-class="{active: $state.includes('admin.experiments')}">
+      <a ui-sref="admin.experiments.index">Experiments</a>
+    </li>
+    <li ng-class="{active: $state.includes('admin.users')}">
+      <a ui-sref="admin.users.index">Users</a>
+    </li>
   </ul>
 </div>
+<br>
 <div ui-view></div>
 

@@ -1,6 +1,7 @@
-app.controller('AdminController', [
+app.controller('AdminUsersController', [
   "$scope",
   function($scope) {
+
   }
 ]);
 

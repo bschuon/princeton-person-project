@@ -1,0 +1,23 @@
+<div class="container">
+  <table class="table table-striped">
+    <caption>Users</caption>
+    <thead>
+      <tr>
+	<th width="20%">ID</th>
+	<th>Username</th>
+	<th width="10%">Admin?</th>
+	<th width="30%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users">
+	<td>{{user.id}}</td>
+	<td>{{user.username}}</td>
+	<td>TBD</td>
+	<td class="pull-right">
+	  <a class="btn btn-sm btn-default">View</a>
+	</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

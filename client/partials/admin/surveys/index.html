@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <div ng-if="noSurveys">
       <br>
       <br>
@@ -7,6 +7,27 @@
 	You have not created any surveys yet.
 	<a ui-sref="admin.surveys.new">Click here</a> to create one.
       </p>
+    </div>
+    <div ng-if="">
+      <table class="table table-striped">
+	<caption>Surveys</caption>
+	<thead>
+	  <tr>
+	    <th width="20%">ID</th>
+	    <th>Name</th>
+	    <th width="30%"></th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="survey in surveys">
+	    <td>{{survey.id}}</td>
+	    <td>{{survey.name}}</td>
+	    <td class="pull-right">
+	      <a class="btn btn-sm btn-default">View</a>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>      
     </div>
   </div>
 </div>

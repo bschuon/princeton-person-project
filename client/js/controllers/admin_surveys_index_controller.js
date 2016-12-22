@@ -1,9 +1,9 @@
 app.controller('AdminSurveysIndexController', [
   "$scope",
-  function($scope) {
-    $scope.noSurveys = true;
-    $scope.surveys = [
-      
-    ];
+  "surveys",
+  function($scope, surveys) {
+    $scope.noSurveys = surveys.length == 0;
+    $scope.surveys = surveys;
   }
 ]);
+

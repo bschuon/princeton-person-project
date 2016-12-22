@@ -1,5 +1,6 @@
 var config = require('./config');
 var pg = require('pg');
+var path = require('path');
 pg.defaults.ssl = config.db.ssl;
 
 
@@ -18,6 +19,6 @@ module.exports = {
     max: 10
   },
   migrations: {
-    directory: './server/migrations'
+    directory: path.join(__dirname, '../', 'migrations')
   }
 };

@@ -24,22 +24,25 @@
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-              <li ng-class="{active: isActive()}">
-		<a id="feat-experiments" ng-href="/experiments">Experiments</a>
+              <li ng-class="{active: $state.includes('home')}">
+		<a id="feat-experiments" ui-sref="home">Home</a>
 	      </li>
-              <li>
+              <li ng-class="{active: $state.includes('experiments')}">
+		<a id="feat-experiments" ui-sref="experiments">Experiments</a>
+	      </li>
+              <li ng-class="{active: $state.includes('about')}">
 		<a id="about" ui-sref="about">About</a>
 	      </li>
-              <li>
+              <li ng-class="{active: $state.includes('contact')}">
 		<a id="contact" ui-sref="contact">Contact</a>
 	      </li>
-              <li ng-hide="rAuth.isAuthenticated()">
+              <li ng-class="{active: $state.includes('user.signin')}" ng-hide="rAuth.isAuthenticated()">
 		<a id="signin-link" ui-sref="user.signin">Sign In</a>
 	      </li>
-	      <li ng-show="rAuth.isAdmin()">
+	      <li ng-class="{active: $state.includes('admin')}" ng-show="rAuth.isAdmin()">
 		<a ui-sref="admin.surveys.index">Admin</a>
 	      </li>
-              <li ng-show="rAuth.isAuthenticated()">
+              <li ng-class="{active: $state.includes('user.dashboard')}" ng-show="rAuth.isAuthenticated()">
 		<a ui-sref="user.dashboard">{{username}}</a>
 	      </li>
               <li ng-show="rAuth.isAuthenticated()">
@@ -64,7 +67,7 @@
 	  <form class="form" ng-submit="createAdmin(admin)">
 	    <div class="form-group">
 	      <label>Username</label>
-	      <input ng-model="admin.username" type="text" class="form-control">
+	      <input ng-model="admin.username" type="text" class="form-control" auto-focus>
 	    </div>
 	    <div class="form-group">
 	      <label>Email</label>

@@ -30,8 +30,10 @@ app.controller('UserDashboardController', [
       });
     };
 
+    /*
     UsersService.completedSurveys().then(function(data){
       $scope.completions = data.rows;
     });
+    */
   }
 ]);

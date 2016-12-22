@@ -30,11 +30,15 @@ app.run([
   "$location",
   "$anchorScroll",
   "$state",
+  "$stateParams",
   "$http",
-  function(UsersService, $rootScope, LocalAuthService, $location, $anchorScroll, $state, $http) {
+  function(UsersService, $rootScope, LocalAuthService, $location, $anchorScroll, $state, $stateParams, $http) {
     UsersService.verifyLogin();
     LocalAuthService.setToken();
 
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    
     $rootScope.rAuth = {
       isAuthenticated: function() {
 	return LocalAuthService.isAuthenticated();
@@ -64,10 +68,8 @@ app.run([
       return LocalAuthService.isAdmin();
     };
 
-    $http.get('/api/v1/users/stats').then(function(response) {
-      if (response.data.admins > 0) {
-	LocalAuthService.setBootstrapped();
-      }
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      console.log(fromState.name, '->', toState.name);
     });
   }
 ]);

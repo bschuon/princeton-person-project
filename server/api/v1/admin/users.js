@@ -20,7 +20,7 @@ router.post('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next)
 });
 
 router.get('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next) {
-  bookshelf.knex.select('id', 'username').from('users').where('admin', true).then(function(data) {
+  bookshelf.knex.select('id', 'username').from('users').then(function(data) {
     res.send(data);
   }).catch(function(error) {
     res.status(500).send({error: error});

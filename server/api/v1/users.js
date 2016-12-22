@@ -24,10 +24,6 @@ var usersApi = function(passport) {
     };
   };
 
-  router.get('/stats', function(req, res, next) {
-
-  });
-
   router.post('/signin', function(req, res, next) {
     passport.authenticate('local-signin', function(err, user, info) {
       if (err || !user) {

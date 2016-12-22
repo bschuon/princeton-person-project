@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="well col-md-6 col-md-offset-3">
+    <dl class="dl-horizontal">
+      <dt>ID</dt><dd>{{survey.id}}</dd>
+      <dt>Name</dt><dd>{{survey.name}}</dd>
+      <dt>Version</dt><dd>{{survey.version}}</dd>
+      <dt>Status</dt><dd>{{survey.status | uppercase}}</dd>
+      <dt>Est. Time</dt><dd>{{survey.est_time | secondsToDateTime | date:'HH:mm:ss'}}</dd>
+      <dt>Created At</dt><dd>{{survey.created_at | date:'medium'}}</dd>
+      <dt>Updated At</dt><dd>{{survey.updated_at | date:'medium'}}</dd>
+    </dl>
+  </div>
+</div>

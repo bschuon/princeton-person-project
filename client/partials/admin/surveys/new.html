@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="col-md-6 col-md-6-pre">
+    <form class="form-horizontal" ng-submit="createSurvey(survey)">
+      <div class="form-group">
+	<label for="name" class="col-md-2">Name</label>
+	<input name="name"
+	       class="col-md-10"
+	       type="text"
+	       ng-model="survey.name"
+	       required="required"
+	       auto-focus>
+      </div>
+      <button class="btn btn-default" type="submit">Submit</button>
+      <button ui-sref="admin.surveys.index" class="btn pull-right">Cancel</button>
+    </form>
+  </div>
+</div>
