@@ -2,6 +2,31 @@ app.config([
   "$stateProvider",
   function($stateProvider) {
 
+    var adminSurveyResolver = [
+      "$stateParams",
+      "AdminSurveysService",
+      function($stateParams, AdminSurveysService) {
+	return AdminSurveysService.getSurveyById($stateParams.id).then(function(data) {
+	  return data.model;
+	});
+      }
+    ];
+
+    var adminSurveysResolver = [
+      "AdminSurveysService",
+      function(AdminSurveysService) {
+	return AdminSurveysService.getSurveys();
+      }
+    ];
+
+    var adminUsersResolver = [
+      "AdminUsersService",
+      function(AdminUsersService) {
+	return AdminUsersService.getUsers();
+      }
+    ];
+
+
     // Admin Dashboard
     $stateProvider.state('admin', {
       url: '/admin',
@@ -19,12 +44,7 @@ app.config([
       templateUrl: '/partials/admin/surveys/index.html',
       controller: 'AdminSurveysIndexController',
       resolve: {
-	surveys: [
-	  "AdminSurveysService",
-	  function(AdminSurveysService) {
-	    return AdminSurveysService.getSurveys();
-	  }
-	]
+	surveys: adminSurveysResolver
       }
     }).state('admin.surveys.new', {
       url: '/new',
@@ -35,15 +55,14 @@ app.config([
       templateUrl: '/partials/admin/surveys/show.html',
       controller: 'AdminSurveysShowController',
       resolve: {
-	survey: [
-	  "$stateParams",
-	  "AdminSurveysService",
-	  function($stateParams, AdminSurveysService) {
-	    return AdminSurveysService.getSurveyById($stateParams.id).then(function(data) {
-	      return data.model;
-	    });
-	  }
-	]
+	survey: adminSurveyResolver
+      }
+    }).state('admin.surveys.schema', {
+      url: '/{id}/schema',
+      templateUrl: '/partials/admin/surveys/schema.html',
+      controller: 'AdminSurveysSchemaController',
+      resolve: {
+	survey: adminSurveyResolver
       }
     });
 
@@ -79,12 +98,7 @@ app.config([
       templateUrl: '/partials/admin/users/index.html',
       controller: 'AdminUsersIndexController',
       resolve: {
-	users: [
-	  "AdminUsersService",
-	  function(AdminUsersService) {
-	    return AdminUsersService.getUsers();
-	  }
-	]
+	users: adminUsersResolver
       }
     }).state('admin.users.roles', {
       url: '/roles',

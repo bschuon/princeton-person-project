@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="col-md-12">
+  <div class="col-md-12 well">
     <div ng-if="noSurveys">
       <br>
       <br>
@@ -8,23 +8,22 @@
 	<a ui-sref="admin.surveys.new">Click here</a> to create one.
       </p>
     </div>
-    <div ng-if="">
-      <table class="table table-striped">
-	<caption>Surveys</caption>
+    <div ng-if="!noSurveys">
+      <table class="table table-hover">
 	<thead>
 	  <tr>
-	    <th width="20%">ID</th>
+	    <th width="10%">ID</th>
 	    <th>Name</th>
-	    <th width="30%"></th>
+	    <th width="15%">Version</th>
+	    <th width="15%">Status</th>
 	  </tr>
 	</thead>
 	<tbody>
-	  <tr ng-repeat="survey in surveys">
+	  <tr ng-repeat="survey in surveys" ng-click="navSurvey(survey.id)">
 	    <td>{{survey.id}}</td>
 	    <td>{{survey.name}}</td>
-	    <td class="pull-right">
-	      <a class="btn btn-sm btn-default">View</a>
-	    </td>
+	    <td>{{survey.version}}</td>
+	    <td>{{survey.status}}</td>
 	  </tr>
 	</tbody>
       </table>      

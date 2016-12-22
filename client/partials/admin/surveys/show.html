@@ -9,5 +9,7 @@
       <dt>Created At</dt><dd>{{survey.created_at | date:'medium'}}</dd>
       <dt>Updated At</dt><dd>{{survey.updated_at | date:'medium'}}</dd>
     </dl>
+    <button class="btn btn-primary" ui-sref="admin.surveys.schema({id: survey.id})">Edit Schema</button>
+    <button class="btn pull-right" ui-sref="admin.surveys.index">Back</button>
   </div>
 </div>

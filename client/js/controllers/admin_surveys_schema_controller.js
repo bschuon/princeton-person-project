@@ -1,4 +1,4 @@
-app.controller('AdminSurveysShowController', [
+app.controller('AdminSurveysSchemaController', [
   "$scope",
   "survey",
   function($scope, survey) {

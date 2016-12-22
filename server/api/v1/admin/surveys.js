@@ -24,12 +24,12 @@ router.get('/:id', function(req, res) {
     res.json({
       valid: true,
       model: model
-    }).catch(function(err) {
-      console.log(err);
-      res.json({
-	valid: false,
-	error: err.message || err
-      });
+    });
+  }).catch(function(err) {
+    console.log(err);
+    res.json({
+      valid: false,
+      error: err.message || err
     });
   });
 });
