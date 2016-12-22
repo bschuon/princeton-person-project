@@ -1,60 +1,60 @@
+angular.module('mwFormBuilder').factory("FormImageBuilderId", function() {
+  var id = 0;
+  return {
+    next: function(){
+      return ++id;
+    }
+  };
+}).directive('mwFormImageBuilder', function() {
+  return {
+    replace: true,
+    restrict: 'AE',
+    require: '^mwFormPageElementBuilder',
+    scope: {
+      image: '=',
+      formObject: '=',
+      onReady: '&',
+      isPreview: '=?',
+      readOnly: '=?',
+      onImageSelection: '&'
+    },
+    templateUrl: '/partials/survey/builder/mw-form-image-builder.html',
+    controllerAs: 'ctrl',
+    bindToController: true,
 
-angular.module('mwFormBuilder').factory("FormImageBuilderId", function(){
-    var id = 0;
-        return {
-            next: function(){
-                return ++id;
-            }
-        }
-    })
+    controller: [
+      "$timeout",
+      "FormImageBuilderId",
+      "mwFormUuid",
+      function($timeout,FormImageBuilderId, mwFormUuid){
+        var ctrl = this;
+        ctrl.id = FormImageBuilderId.next();
+        ctrl.formSubmitted=false;
 
-    .directive('mwFormImageBuilder', function () {
+        ctrl.save=function(){
+          ctrl.formSubmitted=true;
+          if(ctrl.form.$valid){
+            ctrl.onReady();
+          }
+        };
 
-    return {
-        replace: true,
-        restrict: 'AE',
-        require: '^mwFormPageElementBuilder',
-        scope: {
-            image: '=',
-            formObject: '=',
-            onReady: '&',
-            isPreview: '=?',
-            readOnly: '=?',
-            onImageSelection: '&'
-        },
-        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-image-builder.html',
-        controllerAs: 'ctrl',
-        bindToController: true,
-        controller: function($timeout,FormImageBuilderId, mwFormUuid){
-            var ctrl = this;
-            ctrl.id = FormImageBuilderId.next();
-            ctrl.formSubmitted=false;
+        ctrl.selectImageButtonClicked = function(){
+          var resultPromise = ctrl.onImageSelection();
+          resultPromise.then(function(imageSrc){
+            ctrl.image.src = imageSrc;
 
-            ctrl.save=function(){
-                ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
-                    ctrl.onReady();
-                }
-            };
+          }).catch(function(){
 
-            ctrl.selectImageButtonClicked = function(){
-                var resultPromise = ctrl.onImageSelection();
-                resultPromise.then(function(imageSrc){
-                   ctrl.image.src = imageSrc;
+          });
+        };
 
-                }).catch(function(){
-
-                });
-            };
-
-            ctrl.setAlign = function(align){
-                ctrl.image.align = align;
-            }
-
-
-        },
-        link: function (scope, ele, attrs, formPageElementBuilder){
-            var ctrl = scope.ctrl;
-        }
-    };
+        ctrl.setAlign = function(align){
+          ctrl.image.align = align;
+        };
+      }
+    ],
+    link: function(scope, ele, attrs, formPageElementBuilder){
+      var ctrl = scope.ctrl;
+    }
+  };
 });

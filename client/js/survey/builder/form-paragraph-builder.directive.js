@@ -1,44 +1,44 @@
-
 angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
-    var id = 0;
-        return {
-            next: function(){
-                return ++id;
-            }
-        }
-    })
+  var id = 0;
+  return {
+    next: function(){
+      return ++id;
+    }
+  };
+}).directive('mwFormParagraphBuilder', function () {
+  return {
+    replace: true,
+    restrict: 'AE',
+    require: '^mwFormPageElementBuilder',
+    scope: {
+      paragraph: '=',
+      formObject: '=',
+      onReady: '&',
+      isPreview: '=?',
+      readOnly: '=?'
+    },
+    templateUrl: '/partials/survey/builder/mw-form-paragraph-builder.html',
+    controllerAs: 'ctrl',
+    bindToController: true,
+    controller: [
+      "$timeout",
+      "FormParagraphBuilderId",
+      function($timeout,FormParagraphBuilderId){
+        var ctrl = this;
+        ctrl.id = FormParagraphBuilderId.next();
+        ctrl.formSubmitted=false;
 
-    .directive('mwFormParagraphBuilder', function () {
+        ctrl.save=function(){
+          ctrl.formSubmitted=true;
+          if(ctrl.form.$valid){
+            ctrl.onReady();
+          }
+        };
 
-    return {
-        replace: true,
-        restrict: 'AE',
-        require: '^mwFormPageElementBuilder',
-        scope: {
-            paragraph: '=',
-            formObject: '=',
-            onReady: '&',
-            isPreview: '=?',
-            readOnly: '=?'
-        },
-        templateUrl: '/partials/forms/builder/templates/bootstrap/mw-form-paragraph-builder.html',
-        controllerAs: 'ctrl',
-        bindToController: true,
-        controller: function($timeout,FormParagraphBuilderId){
-            var ctrl = this;
-            ctrl.id = FormParagraphBuilderId.next();
-            ctrl.formSubmitted=false;
-
-            ctrl.save=function(){
-                ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
-                    ctrl.onReady();
-                }
-            };
-
-        },
-        link: function (scope, ele, attrs, formPageElementBuilder){
-            var ctrl = scope.ctrl;
-        }
-    };
+      }
+    ],
+    link: function(scope, ele, attrs, formPageElementBuilder){
+      var ctrl = scope.ctrl;
+    }
+  };
 });
