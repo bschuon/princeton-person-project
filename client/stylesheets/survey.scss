@@ -121,14 +121,17 @@
         position: relative;
 
 
-        &.page-folded{
+        &.page-folded {
             .mw-page-tab-actions {
-                button{
-                    &.unfold-button{
+                button {
+		    color: #ffffff!important;
+		    background-color: transparent!important;
+		    opacity: 1!important;
+                    &.unfold-button {
                         display: inline-block!important;
                     }
 
-                    &.fold-button{
+                    &.fold-button {
                         display: none;
                     }
                 }

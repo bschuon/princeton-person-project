@@ -1,8 +1,11 @@
 app.controller('AdminSurveysSchemaController', [
   "$q",
   "$scope",
+  "$rootScope",
   "survey",
-  function($q, $scope, survey) {
+  "AdminSurveysService",
+  function($q, $scope, $rootScope, survey, AdminSurveysService) {
+    $rootScope.errors = [];
     $scope.survey = survey;
     $scope.formBuilder = {};
     $scope.formOptions = {
@@ -28,6 +31,16 @@ app.controller('AdminSurveysSchemaController', [
       }
       return d.promise;
     };
-    
+    $scope.save = function() {
+      $rootScope.errors = [];
+      AdminSurveysService.updateSurveySchema($scope.survey).then(function(data) {
+	console.dir(data);
+	if (data.valid) {
+	  $state.go('admin.surveys.show', {id: $scope.survey.id});
+	} else {
+	  $rootScope.errors.push(data.error);
+	}
+      });
+    };
   }
 ]);

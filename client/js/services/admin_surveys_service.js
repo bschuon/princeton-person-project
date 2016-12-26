@@ -17,6 +17,14 @@ app.factory("AdminSurveysService", [
 	return $http.post('/api/v1/admin/surveys', survey).then(function(res) {
 	  return res.data;
 	});
+      },
+      updateSurveySchema: function(survey) {
+	var url = '/api/v1/admin/surveys/' + survey.id + '/schema';
+	console.log('url:', url);
+	return $http.post(url, survey).then(function(res) {
+	  console.dir(res.data);
+	  return res.data;
+	});
       }
     };
   }

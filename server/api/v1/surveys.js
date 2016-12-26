@@ -20,37 +20,7 @@ router.get('/:id', function(req, res) {
     survey.schema = survey.schema || {
       name: "todo name",
       description: "todo description",
-      pages: [
-	{
-	  "id": "16062797c1e9a92a9dbaae5e9ce17d6c",
-	  "number": 1,
-	  "name": null,
-	  "description": null,
-	  "pageFlow": {
-            "nextPage": true,
-            "label": "mwForm.pageFlow.goToNextPage"
-	  },
-	  "elements": [
-            {
-              "id": "e30d62038bb2becbe76cb144dc37472e",
-              "orderNo": 1,
-              "type": "question",
-              "question": {
-		"id": "e2473fd90ef36ab5bae5f0a33cf01ea3",
-		"text": "Enter a number 0-100",
-		"type": "number",
-		"required": true,
-		"pageFlowModifier": false,
-		"min": 0,
-		"max": 100
-              }
-            }
-	  ],
-	  "namedPage": false,
-	  "isFirst": true,
-	  "isLast": true
-	}
-      ]
+      pages: []
     };
     res.json({
       valid: true,
@@ -58,44 +28,52 @@ router.get('/:id', function(req, res) {
     });
   }).catch(function(err) {
     console.log(err);
-    res.status(500).json({
+    res.json({
       valid: false,
       error: err.message || err
     });
   });
 });
 
-// update survey model
-router.post('/:id', function(req, res) {
-  var id = req.params.id;
-  var version_id = req.body.version_id;
-  var estimated_time = req.body.estimated_time;
-  var survey = req.body.survey;
-  new Survey({
-    id: id,
-    version_id: version_id,
-    estimated_time: estimated_time,
-    survey: survey
-  }).save().then(function(model) {
-    res.json({
-      valid: true,
-      model: model
+// update survey model schema
+router.post('/:id/schema', function(req, res) {
+  Survey.where({
+    id: parseInt(req.body.id, 10)
+  }).fetch().then(function(model) {
+    if (model.version !== req.body.version) {
+      throw "optimistic locking error";
+    }
+    if (model.state !== 'draft') {
+      model.version++;
+    }
+    model.schema = req.body.schema;
+    model.save().then(function(model) {
+      res.json({
+	valid: true,
+	model: model
+      }).catch(function(err) {
+	console.log(err);
+	res.json({
+	  valid: false,
+	  error: err.message || err
+	});
+      });
+    }).catch(function(err) {
+      console.log(err);
+      res.json({
+	valid: false,
+	error: err.message || err
+      });
     });
-  }).catch(function(err) {
-    console.log(err);
-    res.status(500).json({valid: false, error: err.message || err});
   });
 });
 
 // create survey model
 router.post('/', function(req, res) {
-  var version_id = 1;
-  var estimated_time = req.body.estimated_time;
-  var survey = req.body.survey;
   new Survey({
-    version_id: version_id,
-    estimated_time: estimated_time,
-    survey: survey
+    version: 1,
+    estimated_time: parseInt(req.body.est_time, 10),
+    schema: req.body.schema
   }).save().then(function(model) {
     res.json({
       valid: true,
@@ -103,7 +81,10 @@ router.post('/', function(req, res) {
     });
   }).catch(function(err) {
     console.log(err);
-    res.status(500).json({valid: false, error: err.message || err});
+    res.json({
+      valid: false,
+      error: err.message || err
+    });
   });
 });
 
