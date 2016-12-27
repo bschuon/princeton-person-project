@@ -68,8 +68,11 @@ app.controller('AdminSurveysScoringController', [
       $scope.survey.scoring.axes.splice(idx, 1);
     };
 
-    $scope.addQuestion = function(idx, elem) {
-      alert('addQuestion(' + idx + ',' + elem + ') not implemented');
+    $scope.addQuestion = function(axisIndex, questionId) {
+      var question = _.findWhere(allQuestions, {
+	id: questionId
+      });
+      $scope.survey.scoring.axes[axisIndex].questions.push(question);
     };
 
 

@@ -28,13 +28,16 @@
     <div class="col-md-4 form-group">
       <label>Add Question to Axis</label>
       <select
-	 ng-model="axis.pendingQuestion"
-	 ng-change="addQuestion(axisIndex, this.value)">
+	 ng-model="axis.pendingQuestionId"
+	 ng-change="addQuestion(axisIndex, axis.pendingQuestionId)">
 	<option
 	   ng-repeat="question in availableQuestions(axisIndex)"
 	   value="{{question.id}}"
 	   >{{question.text}}</option>
       </select>
+    </div>
+    <div class="col-md-4" ng-repeat="question in axis.questions track by $index">
+      <pre>{{question | json}}</pre>
     </div>
   </div>
   <div class="row" style="padding:30px 0;">
