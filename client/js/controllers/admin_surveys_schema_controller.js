@@ -1,11 +1,10 @@
 app.controller('AdminSurveysSchemaController', [
   "$q",
   "$scope",
-  "$rootScope",
+  "$state",
   "survey",
   "AdminSurveysService",
-  function($q, $scope, $rootScope, survey, AdminSurveysService) {
-    $rootScope.errors = [];
+  function($q, $scope, $state, survey, AdminSurveysService) {
     $scope.survey = survey;
     $scope.formBuilder = {};
     $scope.formOptions = {
@@ -32,14 +31,8 @@ app.controller('AdminSurveysSchemaController', [
       return d.promise;
     };
     $scope.save = function() {
-      $rootScope.errors = [];
-      AdminSurveysService.updateSurveySchema($scope.survey).then(function(data) {
-	console.dir(data);
-	if (data.valid) {
-	  $state.go('admin.surveys.show', {id: $scope.survey.id});
-	} else {
-	  $rootScope.errors.push(data.error);
-	}
+      AdminSurveysService.updateSurveySchema($scope.survey).then(function(model) {
+	$state.go('admin.surveys.show', {id: $scope.survey.id});
       });
     };
   }

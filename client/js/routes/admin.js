@@ -6,9 +6,7 @@ app.config([
       "$stateParams",
       "AdminSurveysService",
       function($stateParams, AdminSurveysService) {
-	return AdminSurveysService.getSurveyById($stateParams.id).then(function(data) {
-	  return data.model;
-	});
+	return AdminSurveysService.getSurveyById($stateParams.id);
       }
     ];
 
