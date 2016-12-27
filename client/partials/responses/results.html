@@ -1,5 +1,9 @@
 <div class="container">
-  <div class="col-md-12" style="height:400px;overflow:auto;">
-    <pre>{{response | json}}</pre>
+  <div class="row">
+    <h2>{{survey.name}} Survey</h2>
+    <div class="col-md-12" ng-repeat="axis in score">
+      <h3>Axis {{axis.label}}: {{axis.score}}</h3>
+      <p>{{axis.description}}</p>
+    </div>
   </div>
 </div>

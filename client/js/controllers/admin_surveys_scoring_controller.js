@@ -16,11 +16,15 @@ app.controller('AdminSurveysScoringController', [
 	  _.each(question.grid.rows, function(row, index) {
 	    memo.push({
 	      id: row.id,
-	      text: row.label,
-	      weights: [
-		// TODO: response weights need to be populated
-		// e.g. {id: "", text: "", axisValue: -1.5}
-	      ] 
+	      text: question.text + ' -> ' + row.label,
+	      type: 'grid',
+	      weights: _.map(question.grid.cols, function(col) {
+		return {
+		  id: col.id,
+		  label: col.label,
+		  axisScore: 0.0
+		};
+	      })
 	    });
 	  });
 	} else {
@@ -55,9 +59,10 @@ app.controller('AdminSurveysScoringController', [
       });
     };
 
-    var allQuestions = seedQuestions();
+    $scope.allQuestions = seedQuestions();
+
     $scope.availableQuestions = function(idx) {
-      return _.reject(allQuestions, function(question) {
+      return _.reject($scope.allQuestions, function(question) {
 	return _.find($scope.survey.scoring.axes[idx].questions, function(axisQuestion) {
 	  return axisQuestion.id == question.id;
 	});
@@ -69,10 +74,11 @@ app.controller('AdminSurveysScoringController', [
     };
 
     $scope.addQuestion = function(axisIndex, questionId) {
-      var question = _.findWhere(allQuestions, {
+      var question = _.findWhere($scope.allQuestions, {
 	id: questionId
       });
-      $scope.survey.scoring.axes[axisIndex].questions.push(question);
+      // we have to deep copy question to avoid the reference
+      $scope.survey.scoring.axes[axisIndex].questions.push(JSON.parse(JSON.stringify((question))));
     };
 
 
