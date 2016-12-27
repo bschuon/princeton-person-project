@@ -28,6 +28,7 @@ app.controller('AdminSurveysScoringController', [
 	    });
 	  });
 	} else {
+	  alert('not fully implemented');
 	  memo.push({
 	    id: question.id,
 	    text: question.text,

@@ -21,7 +21,6 @@ app.controller('NewSurveyResponseController', [
       var responseData = $scope.responseData;
       var headers = $scope.headersWithQuestionNumber;
       return SurveysService.submitResponse(survey, responseData, headers, elapsedSeconds).then(function(surveyResponse) {
-	console.dir(surveyResponse);
 	Flash.create('success', 'Survey response has been recorded!');
 	$state.go('surveys.responses.results', {
 	  surveyId: survey.id,
