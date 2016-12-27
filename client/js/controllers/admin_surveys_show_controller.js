@@ -1,29 +1,47 @@
 app.controller('AdminSurveysShowController', [
   "$scope",
   "$state",
+  "Flash",
   "AdminSurveysService",
   "survey",
-  function($scope, $state, AdminSurveysService, survey) {
+  function($scope, $state, Flash, AdminSurveysService, survey) {
     $scope.survey = survey;
 
     $scope.showPublish = function() {
-      if (survey.status == 'draft') {
-	return true;
-      }
-      return false;
+      return survey.status == 'draft' || survey.status == 'disabled';
     };
 
-    $scope.showEditSchema = function() {
-      if (survey.status == 'draft') {
-	return true;
-      }
-      return false;
+    $scope.showUnpublish = function() {
+      return survey.status == 'published';
+    };
+
+    $scope.showDisable = function() {
+      return survey.status == 'published';
     };
 
     $scope.publish = function() {
-      AdminSurveysService.publish(survey.id).then(function() {
-	$state.go('admin.surveys.index');
+      AdminSurveysService.publishSurvey(survey.id).then(function() {
+	$state.reload();
+      }).catch(function(err) {
+	Flash.create('warning', err);
       });
     };
+
+    $scope.unpublish = function() {
+      AdminSurveysService.unpublishSurvey(survey.id).then(function() {
+	$state.reload();
+      }).catch(function(err) {
+	Flash.create('warning', err);
+      });
+    };
+
+    $scope.disable = function() {
+      AdminSurveysService.disableSurvey(survey.id).then(function() {
+	$state.reload()
+      }).catch(function(err) {
+	Flash.create('warning', err);
+      });
+    };
+
   }
 ]);

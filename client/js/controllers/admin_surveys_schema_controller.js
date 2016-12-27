@@ -2,9 +2,10 @@ app.controller('AdminSurveysSchemaController', [
   "$q",
   "$scope",
   "$state",
-  "survey",
+  "Flash",
   "AdminSurveysService",
-  function($q, $scope, $state, survey, AdminSurveysService) {
+  "survey",
+  function($q, $scope, $state, Flash, AdminSurveysService, survey) {    
     $scope.survey = survey;
     $scope.formBuilder = {};
     $scope.formOptions = {
@@ -19,7 +20,7 @@ app.controller('AdminSurveysSchemaController', [
        elementTypes: ['question', 'image']*/
     };
     $scope.formStatus = {};
-    $scope.builderReadOnly = false;
+    $scope.builderReadOnly = survey.status != 'draft';
     $scope.onImageSelection = function() {
       var d = $q.defer();
       var src = prompt("Please enter image src");
@@ -33,6 +34,8 @@ app.controller('AdminSurveysSchemaController', [
     $scope.save = function() {
       AdminSurveysService.updateSurveySchema($scope.survey).then(function(model) {
 	$state.go('admin.surveys.show', {id: $scope.survey.id});
+      }).catch(function(err) {
+	Flash.create('warning', err);
       });
     };
   }

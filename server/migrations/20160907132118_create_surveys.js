@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     t.string('status').notNullable();
     t.integer('est_time');
     t.json('schema').notNullable();
+    t.json('scoring');
     t.timestamps();
     t.unique(['name', 'version']);
   });

@@ -34,7 +34,8 @@ router.post('/:id', function(req, res) {
 
 router.post('/:id/publish', function(req, res) {
   h.fetchSurvey(req.params.id).then(function(survey) {
-    if (survey.attributes.status != 'draft') {
+    if (survey.attributes.status != 'draft' &&
+       survey.attributes.status != 'disabled') {
       throw 'state transition error';
     }
     survey.attributes.status = 'published';
@@ -42,9 +43,37 @@ router.post('/:id/publish', function(req, res) {
   }).then(h.returnModel(res)).catch(h.handleError(res));
 });
 
+router.post('/:id/unpublish', function(req, res) {
+  h.fetchSurvey(req.params.id).then(function(survey) {
+    if (survey.attributes.status != 'published') {
+      throw 'state transition error';
+    }
+    survey.attributes.status = 'draft';
+    return survey.save();
+  }).then(h.returnModel(res)).catch(h.handleError(res));
+});
+
+router.post('/:id/disable', function(req, res) {
+  h.fetchSurvey(req.params.id).then(function(survey) {
+    if (survey.attributes.status != 'published') {
+      throw 'state transition error';
+    }
+    survey.attributes.status = 'disabled';
+    return survey.save();
+  }).then(h.returnModel(res)).catch(h.handleError(res));
+});
+
 router.post('/:id/schema', function(req, res) {
   h.fetchSurvey(req.params.id).then(h.optimisticLock(req)).then(function(survey) {
     survey.attributes.schema = JSON.stringify(req.body.schema);
+    survey.attributes.version++;
+    return survey.save();
+  }).then(h.returnModel(res)).catch(h.handleError(res));
+});
+
+router.post('/:id/scoring', function(req, res) {
+  h.fetchSurvey(req.params.id).then(h.optimisticLock(req)).then(function(survey) {
+    survey.attributes.scoring = JSON.stringify(req.body.scoring);
     survey.attributes.version++;
     return survey.save();
   }).then(h.returnModel(res)).catch(h.handleError(res));

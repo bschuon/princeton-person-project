@@ -11,14 +11,27 @@
     </dl>
     <button
        class="btn btn-primary"
-       ng-if="showEditSchema()"
        ui-sref="admin.surveys.schema({id: survey.id})"
-       >Edit Schema</button>
+       >Schema</button>
     <button
-       class="btn"
+       class="btn btn-primary"
+       ui-sref="admin.surveys.scoring({id: survey.id})"
+       >Scoring</button>
+    <button
+       class="btn btn-warning"
        ng-if="showPublish()"
        ng-click="publish()"
        >Publish</button>
+    <button
+       class="btn btn-warning"
+       ng-if="showUnpublish()"
+       ng-click="unpublish()"
+       >Unpublish</button>
+    <button
+       class="btn btn-warning"
+       ng-if="showDisable()"
+       ng-click="disable()"
+       >Disable</button>
     <button
        class="btn pull-right"
        ui-sref="admin.surveys.index"

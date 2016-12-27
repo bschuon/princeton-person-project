@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <h2 class="col-md-12">Configure Survey Scoring</h2>
+  </div>
+  <div class="row">
+    <h3 class="col-md-12">Axes <small>(plural of axis)</small></h3>
+    <div class="col-md-12" style="padding: 30px 0;">
+      <button
+	 class="btn btn-default pull-right"
+	 ng-click="addAxis()"
+	 >Add Axis</button>
+    </div>
+  </div>
+  <div
+     class="row"
+     ng-repeat="axis in survey.scoring.axes track by $index"
+     ng-init="axisIndex = $index">
+    <div class="form-group col-md-4">
+      <input
+	 type="text"
+	 name="name"
+	 placeholder="name"
+	 ng-model="axis.name">
+      <button
+	 class="btn btn-sm btn-default"
+	 ng-click="removeAxis(axisIndex)">Remove</button>
+    </div>
+    <div class="col-md-4 form-group">
+      <label>Add Question to Axis</label>
+      <select
+	 ng-model="axis.pendingQuestion"
+	 ng-change="addQuestion(axisIndex, this.value)">
+	<option
+	   ng-repeat="question in availableQuestions(axisIndex)"
+	   value="{{question.id}}"
+	   >{{question.text}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="padding:30px 0;">
+    <div class="col-md-12">
+      <button
+	 class="btn btn-primary"
+	 ng-click="updateScoring()"
+	 >Update</button>
+      <button
+	 class="btn pull-right"
+	 ui-sref="admin.surveys.show({id: survey.id})"
+	 >Back</button>
+    </div>
+  </div>
+  <div class="row" style="height: 200px; overflow: auto;"><pre class="col-md-12">{{ survey.scoring | json }}</div>
+</div>

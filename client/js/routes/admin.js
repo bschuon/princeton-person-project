@@ -56,9 +56,16 @@ app.config([
 	survey: adminSurveyResolver
       }
     }).state('admin.surveys.schema', {
-      url: '/{id}/schema',
+      url: '/{id}/schema/edit',
       templateUrl: '/partials/admin/surveys/schema.html',
       controller: 'AdminSurveysSchemaController',
+      resolve: {
+	survey: adminSurveyResolver
+      }
+    }).state('admin.surveys.scoring', {
+      url: '/{id}/scoring',
+      templateUrl: '/partials/admin/surveys/scoring.html',
+      controller: 'AdminSurveysScoringController',
       resolve: {
 	survey: adminSurveyResolver
       }

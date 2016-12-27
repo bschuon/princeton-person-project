@@ -9,8 +9,14 @@ app.factory("AdminSurveysService", [
     };
     
     return {
-      publish: function(id) {
+      publishSurvey: function(id) {
 	return $http.post('/api/v1/admin/surveys/' + id + '/publish').then(unwrap);
+      },
+      unpublishSurvey: function(id) {
+	return $http.post('/api/v1/admin/surveys/' + id + '/unpublish').then(unwrap);
+      },
+      disableSurvey: function(id) {
+	return $http.post('/api/v1/admin/surveys/' + id + '/disable').then(unwrap);
       },
       getSurveyById: function(id) {
 	return $http.get('/api/v1/admin/surveys/' + id).then(unwrap);
@@ -24,6 +30,9 @@ app.factory("AdminSurveysService", [
       },
       updateSurveySchema: function(survey) {
 	return $http.post('/api/v1/admin/surveys/' + survey.id + '/schema', survey).then(unwrap);
+      },
+      updateSurveyScoring: function(survey) {
+	return $http.post('/api/v1/admin/surveys/' + survey.id + '/scoring', survey).then(unwrap);
       }
     };
   }
