@@ -9,7 +9,8 @@ var app = angular.module('person-project', [
   'mwFormBuilder',
   'mwFormViewer',
   'mwFormUtils',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'ngFlash'
 ]);
 
 app.config([
@@ -17,7 +18,8 @@ app.config([
   "$locationProvider",
   "$httpProvider",
   "$translateProvider",
-  function($urlRouterProvider, $locationProvider, $httpProvider, $translateProvider) {
+  "FlashProvider",
+  function($urlRouterProvider, $locationProvider, $httpProvider, $translateProvider, FlashProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push("AuthInterceptor");
     $urlRouterProvider.otherwise('/');
@@ -27,6 +29,8 @@ app.config([
     });
     $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy('sanitize');
+    FlashProvider.setTimeout(10000);
+    FlashProvider.setShowClose(true);
   }
 ]);
 
