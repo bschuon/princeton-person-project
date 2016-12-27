@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div ng-if="noSurveys">
+      <div class="col-md-12 well">
+	<br>
+	<br>
+	<p>
+	  There are no surveys currently available. Check back soon!
+	</p>
+      </div>
+    </div>
+    <div ng-if="!noSurveys">
+      <div ng-repeat="survey in surveys" class="col-md-4">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">{{survey.name}}</h3>
+	  </div>
+	  <div class="panel-body" style="height: 200px; overflow:auto">
+	    {{survey.schema.description}}
+	  </div>
+	  <div class="panel-footer">
+	    <button
+	       class="btn btn-primary"
+	       ui-sref="surveys.responses.new({surveyId: survey.id})"
+	       >Take survey</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>

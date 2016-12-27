@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Survey = require('../../models/survey');
+var Response = require('../../models/response');
 
 var helpers = {
   handleError: function(res) {
@@ -30,6 +31,11 @@ var helpers = {
   },
   fetchSurvey: function(id) {
     return Survey.where({
+      id: parseInt(id, 10)
+    }).fetch();
+  },
+  fetchResponse: function(id) {
+    return Response.where({
       id: parseInt(id, 10)
     }).fetch();
   },

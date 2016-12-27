@@ -7,9 +7,6 @@ app.config([
     }).state('about', {
       url: '/about',
       templateUrl: '/partials/static/about.html'
-    }).state('experiments', {
-      url: '/experiments',
-      templateUrl: '/partials/static/experiments.html'
     }).state('contact', {
       url: '/contact',
       templateUrl: '/partials/static/contact.html'

@@ -1,4 +1,13 @@
 <div class="mw-form-viewer">
-    <form ng-if="!ctrl.options.nestedForm"  name="ctrl.form" role="form" novalidate ng-include="'/partials/forms/viewer/templates/bootstrap/mw-form-viewer-content.html'"></form>
-    <div ng-if="ctrl.options.nestedForm"  ng-form="ctrl.form" ng-include="'/partials/forms/viewer/templates/bootstrap/mw-form-viewer-content.html'"></div>
+  <form
+     ng-if="!ctrl.options.nestedForm"
+     name="ctrl.form"
+     role="form"
+     novalidate
+     ng-include="'/partials/survey/viewer/mw-form-viewer-content.html'"
+     ></form>
+  <div ng-if="ctrl.options.nestedForm"
+       ng-form="ctrl.form"
+       ng-include="'/partials/survey/viewer/mw-form-viewer-content.html'"
+       ></div>
 </div>

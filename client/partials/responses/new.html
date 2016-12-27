@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+    <mw-form-viewer
+       form-data="formData"
+       template-data="templateData"
+       form-status="formStatus"
+       options="formOptions"
+       api="formViewer"
+       response-data="responseData"
+       read-only="viewerReadOnly"
+       on-submit="submitSurvey()"
+       start-time="startTime"
+       ></mw-form-viewer>
+  </div>
+  <div class="row">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#respData" aria-controls="home" role="tab" data-toggle="tab">Response Data</a></li>
+      <li role="presentation"><a href="#formData" aria-controls="profile" role="tab" data-toggle="tab">Form Data</a></li>
+      <li role="presentation"><a href="#merged" aria-controls="settings" role="tab" data-toggle="tab">Merged</a></li>
+      <li role="presentation"><a href="#qRespList" aria-controls="settings" role="tab" data-toggle="tab">Question Resp. List</a></li>
+      <li role="presentation"><a href="#respSheetRow" aria-controls="settings" role="tab" data-toggle="tab">Resp. Sheet Row</a></li>
+      <li role="presentation"><a href="#respSheetHeaders" aria-controls="settings" role="tab" data-toggle="tab">Resp. Sheet Headers</a></li>
+      <li role="presentation"><a href="#respSheet" aria-controls="settings" role="tab" data-toggle="tab">Resp. Sheet</a></li>
+      <li role="presentation"><a href="#formViewer" aria-controls="settings" role="tab" data-toggle="tab">Form Viewer</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" style="height: 200px; overflow:auto">
+      <div role="tabpanel" class="tab-pane active" id="respData">
+	<pre>{{ responseData | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="formData">
+	<pre>{{ formData | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="merged">
+	<pre>{{ getMerged() | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="qRespList">
+	<pre>{{ getQuestionWithResponseList() | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="respSheetRow">
+	<pre>{{ getResponseSheetRow() | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="respSheetHeaders">
+	<pre>{{ getResponseSheetHeaders() | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="respSheet">
+	<pre>{{ getResponseSheet() | json }}</pre>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="formViewer">
+	<pre>{{ formViewer | json }}</pre>
+      </div>
+    </div>
+
+  </div>
+</div>

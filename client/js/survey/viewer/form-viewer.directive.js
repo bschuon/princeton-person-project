@@ -10,7 +10,8 @@ angular.module('mwFormViewer').directive('mwFormViewer', function() {
       options: '=?',
       formStatus: '=?', //wrapper for internal angular form object
       onSubmit: '&',
-      api: '=?'
+      api: '=?',
+      startTime: '=?'
 
     },
     templateUrl: '/partials/survey/viewer/mw-form-viewer.html',
@@ -131,7 +132,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', function() {
         };
 
         ctrl.beginResponse=function(){
-
+	  ctrl.startTime = (new Date).getTime();
           if(ctrl.formData.pages.length>0){
             ctrl.setCurrentPage(ctrl.formData.pages[0]);
           }

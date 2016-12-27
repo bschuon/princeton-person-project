@@ -4,7 +4,12 @@ exports.up = function(knex, Promise) {
     t.integer('survey_id').references('surveys.id');
     t.string('user_id');
     t.integer('recorded_time'); // number of seconds taken
-    t.json('response').notNullable();
+    t.json('data');
+    t.json('merged');
+    t.json('question_with_response_list');
+    t.json('response_sheet_row');
+    t.json('response_sheet_header');
+    t.json('response_sheet');
     t.timestamps();
   });
 };

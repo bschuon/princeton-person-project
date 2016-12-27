@@ -3,5 +3,6 @@ app.controller('SurveysAvailableController', [
   'surveys',
   function($scope, surveys) {
     $scope.surveys = surveys;
+    $scope.noSurveys = surveys.length == 0;
   }
 ]);
