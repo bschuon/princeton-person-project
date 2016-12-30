@@ -137,6 +137,9 @@ angular.module('mwFormUtils.responseUtils', []).factory('mwFormResponseUtils', f
       if (question.type == 'division') {
         return service.$extractResponseForDivisionQuestion(question, questionResponse);
       }
+      if (question.type == 'script') {
+	return questionResponse;
+      }
     }
 
     return null;

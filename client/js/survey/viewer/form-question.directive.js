@@ -44,9 +44,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
           if(ctrl.questionResponse.other){
             ctrl.isOtherAnswer=true;
           }
-
-
-        }else if(ctrl.question.type=='grid'){
+        } else if (ctrl.question.type=='grid'){
           //if(ctrl.questionResponse.selectedAnswers){
           //
           //}else{
@@ -121,6 +119,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
     link: function (scope, ele, attrs, mwFormViewer){
       var ctrl = scope.ctrl;
       ctrl.print =  mwFormViewer.print;
+      ctrl.submitForm = mwFormViewer.submitForm;
     }
   };
 });

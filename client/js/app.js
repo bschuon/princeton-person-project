@@ -86,5 +86,28 @@ app.run([
       console.log(fromState.name, '->', toState.name);
     });
 
+    $rootScope.surveyBuilderOptions = {
+      questionTypes:  [
+	'text',
+	'textarea',
+	'radio',
+	'checkbox',
+	'grid',
+	'priority',
+	// 'division',
+	'number',
+	'date',
+	'time',
+	'email',
+	'range',
+	'url',
+	'script'
+      ],
+      elementTypes: [
+	'question',
+	// 'image',
+	'paragraph'
+      ]
+    };
   }
 ]);

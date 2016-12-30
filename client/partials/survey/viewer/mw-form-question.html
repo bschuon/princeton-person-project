@@ -123,7 +123,12 @@
         <div ng-switch-when="url" class="form-inline">
             <input class="form-control" type="url" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
         </div>
-
+	<div ng-switch-when="script">
+	  <mw-script
+	     question-response="ctrl.questionResponse"
+	     question="ctrl.question"
+	     read-only="ctrl.readOnly"></mw-script>
+	</div>
     </div>
 
 </div>

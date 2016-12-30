@@ -12,7 +12,8 @@ angular.module('mwFormBuilder').constant('MW_QUESTION_TYPES', [
   'time',
   'email',
   'range',
-  'url'
+  'url',
+  'script'
 ]).constant('MW_ELEMENT_TYPES', [
   'question',
   'image',

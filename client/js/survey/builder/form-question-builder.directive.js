@@ -92,6 +92,10 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
             delete ctrl.question.priorityList;
           }
 
+	  if (ctrl.question.type != 'script') {
+	    delete ctrl.question.script;
+	  }
+
 
         };
 

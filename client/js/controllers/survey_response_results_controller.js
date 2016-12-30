@@ -101,6 +101,17 @@ app.controller('SurveyResponseResultsController', [
 	    alert(question.type + 'unknown score type: ' + axisQuestion.scoreType);
 	  }
 	}
+      } else if (question.type == 'script') {
+	axisQuestion = _.findWhere(axis.questions, {
+	  id : question.id
+	});
+	if (axisQuestion) {
+	  if (axisQuestion.scoreType == 'script') {
+	    result = result + scoreByScript(axisQuestion.script, question.response);	    
+	  } else {
+	    alert(question.type + 'unknown score type: ' + axisQuestion.scoreType);
+	  }
+	}
       } else {
 	alert('not implemented: ' + question.type);
       }

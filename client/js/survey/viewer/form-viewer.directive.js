@@ -89,7 +89,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', function() {
 
         };
 
-
         ctrl.setDefaultNextPage  = function(){
           var index = ctrl.formData.pages.indexOf(ctrl.currentPage);
           ctrl.currentPage.isFirst = index==0;
@@ -233,8 +232,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', function() {
       if(ctrl.formStatus){
         ctrl.formStatus.form = ctrl.form;
       }
-
-
     }
   };
 });

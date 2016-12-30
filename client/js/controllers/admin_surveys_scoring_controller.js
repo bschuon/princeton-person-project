@@ -29,7 +29,8 @@ app.controller('AdminSurveysScoringController', [
 	  };
 	});
 	return JSON.stringify(ref, null, 4);
-      } else if (question.type == 'number') {
+      } else if (question.type == 'number' ||
+		 question.type == 'script') {
 	return "// n/a";
       } else {
 	return JSON.stringify({
@@ -70,6 +71,13 @@ app.controller('AdminSurveysScoringController', [
     return 0;
   }
   return 1;
+}`;
+      } else if (question.type == 'script') {
+	return `function(response) {
+  if (response.customProperty == 1) {
+    return 1;
+  }
+  return 0;
 }`;
       } else {
 	return JSON.stringify({
@@ -127,6 +135,12 @@ app.controller('AdminSurveysScoringController', [
 	    type: question.type,
 	    min: question.min,
 	    max: question.max
+	  });
+	} else if (question.type == 'script') {
+	  memo.push({
+	    id: question.id,
+	    text: question.text,
+	    type: question.type
 	  });
 	} else {
 	  alert('not implemented: ' + question.type);

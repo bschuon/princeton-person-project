@@ -94,6 +94,9 @@ app.config([
 	    },
 	    "url":{
 	      "name": "URL"
+	    },
+	    "script": {
+	      "name": "Script"
 	    }
 	  },
 	  "text": "Question text",
