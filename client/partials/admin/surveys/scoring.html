@@ -49,11 +49,41 @@
 	  <h4 class="panel-title">{{question.text}}</h4>
 	</div>
 	<div class="panel-body">
+	  <label>Scoring Type</label>
+	  <select
+	     ng-model="question.scoreType"
+	     ng-change="changeScoreType(question, axis)">
+	    <option value="weights">Weights</option>
+	    <option value="script">Script</option>
+	  </select>
 	  <div
+	     ng-if="question.scoreType == 'weights'"
 	     ng-repeat="weight in question.weights track by $index">
 	    {{weight.label}}
 	    <br>
 	    <input type="number" ng-model="weight.axisScore" class="form-control">
+	  </div>
+	  <div ng-if="question.scoreType == 'script'" class="row">
+	    <div class="col-md-12">
+	      <p>
+		Scoring Script:
+	      </p>
+	      <ui-codemirror
+		 ng-model="question.script"
+		 ui-codemirror-opts="editorOptions"></ui-codemirror>
+	    </div>
+	    <div class="col-md-6">
+	      <p>
+		Example function:
+	      </p>
+	      <div hljs hljs-source="questionScriptExample(question)"></div>
+	    </div>
+	    <div class="col-md-6">
+	      <p>
+		Response Reference:
+	      </p>
+	      <div hljs hljs-source="questionScriptReference(question)"></div>
+	    </div>
 	  </div>
 	</div>
       </div>
@@ -71,6 +101,10 @@
 	 >Back</button>
     </div>
   </div>
-  <div class="row" style="height: 200px; overflow: auto;"><pre class="col-md-12">{{ survey.scoring | json }}</div>
-  <div class="row" style="height: 200px; overflow: auto;"><pre class="col-md-12">{{ allQuestions | json }}</div>
+  <div hljs hljs-source="survey.scoring | json"></div>
+  <br>
+  <div hljs hljs-source="allQuestions | json"></div>
+  <br>
+  <div hljs hljs-source="devQuestions | json"></div>
+  <br>
 </div>

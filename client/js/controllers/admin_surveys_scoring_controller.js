@@ -9,7 +9,83 @@ app.controller('AdminSurveysScoringController', [
     survey.scoring = survey.scoring || {};
     survey.scoring.axes = survey.scoring.axes || [];
 
-        var seedQuestions = function() {
+    $scope.editorOptions = {
+      lineWrapping : true,
+      lineNumbers: true,
+      theme: 'twilight',
+      mode: {name: "javascript", json: true}
+    };
+    
+    $scope.devQuestions = mwFormResponseUtils.getQuestionList(survey.schema);
+
+    $scope.questionScriptReference = function(question) {
+      if (question.type == 'radio' ||
+	  question.type == 'select' ||
+	  question.type == 'checkbox') {
+	var ref = _.map(question.weights, function(q) {
+	  return {
+	    id: q.id,
+	    label: q.label
+	  };
+	});
+	return JSON.stringify(ref, null, 4);
+      } else if (question.type == 'number') {
+	return "// n/a";
+      } else {
+	return JSON.stringify({
+	  error: "not implemented: " + question.type
+	}, null, ' ');
+      }
+    };
+
+    $scope.questionScriptExample = function(question) {
+      if (question.type == 'radio' ||
+	  question.type == 'select') {
+	var id = question.weights[0].id;
+	var label = question.weights[0].label;
+	return `function(responseId) {
+  // ${label}
+  if (responseId == "${id}") { 
+    return 1;
+  }
+  return 0;
+}`;
+      } else if (question.type == 'checkbox') {
+	var id = question.weights[0].id;
+	var label = question.weights[0].label;
+	return `function(selectedAnswers) {
+  var totalScore = 0.0;
+  _.each(selectedAnswers, function(answer) {
+    // ${label}
+    if (answer.id == "${id}") {
+      totalScore = totalScore + 1;
+    }
+  }
+  return totalScore;
+}`;
+      } else if (question.type == 'number' ||
+		question.type == 'range') {
+	return `function(response) {
+  if (response < 2) {
+    return 0;
+  }
+  return 1;
+}`;
+      } else {
+	return JSON.stringify({
+	  error: "questionScriptExample() not implemented: " + question.type
+	}, null, ' ');
+      }
+    };
+
+    $scope.changeScoreType = function(question, axis) {
+      console.dir({
+	question: question,
+	axis: axis
+      });
+    };
+
+    var seedQuestions = function() {
       var questions = mwFormResponseUtils.getQuestionList(survey.schema);
       return _.reduce(questions, function(memo, question) {
 	if (question.type == "grid") {
@@ -27,16 +103,33 @@ app.controller('AdminSurveysScoringController', [
 	      })
 	    });
 	  });
-	} else {
-	  alert('not fully implemented');
+	} else if (question.type == "radio" ||
+		   question.type == "checkbox" ||
+		   question.type == "select") {
+	  var weights = _.map(question.offeredAnswers, function(answer) {
+	    return {
+	      id: answer.id,
+	      label: answer.value,
+	      axisScore: 0.0
+	    };
+	  });
 	  memo.push({
 	    id: question.id,
 	    text: question.text,
-	    weights: [
-	      // TODO: response weights need to be populated
-	      // e.g. {id: "", text: "", axisValue: -1.5}
-	    ] 
+	    type: question.type,
+	    weights: weights
 	  });
+	} else if (question.type == "number" ||
+		  question.type == "range") {
+	  memo.push({
+	    id: question.id,
+	    text: question.text,
+	    type: question.type,
+	    min: question.min,
+	    max: question.max
+	  });
+	} else {
+	  alert('not implemented: ' + question.type);
 	}
 	return memo;
       }, []);
@@ -81,7 +174,6 @@ app.controller('AdminSurveysScoringController', [
       // we have to deep copy question to avoid the reference
       $scope.survey.scoring.axes[axisIndex].questions.push(JSON.parse(JSON.stringify((question))));
     };
-
 
   }
 ]);

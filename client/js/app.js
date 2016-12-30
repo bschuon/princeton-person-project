@@ -1,6 +1,7 @@
 var app = angular.module('person-project', [
   'ui.router',
   'ui.bootstrap',
+  'ui.codemirror',
   'ngCookies',
   'angularModalService',
   'formly',
@@ -10,7 +11,8 @@ var app = angular.module('person-project', [
   'mwFormViewer',
   'mwFormUtils',
   'pascalprecht.translate',
-  'ngFlash'
+  'ngFlash',
+  'hljs'
 ]);
 
 app.config([
@@ -18,7 +20,7 @@ app.config([
   "$locationProvider",
   "$httpProvider",
   "$translateProvider",
-  "FlashProvider",
+  "FlashProvider",  
   function($urlRouterProvider, $locationProvider, $httpProvider, $translateProvider, FlashProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push("AuthInterceptor");
@@ -43,7 +45,8 @@ app.run([
   "$state",
   "$stateParams",
   "$http",
-  function(UsersService, $rootScope, LocalAuthService, $location, $anchorScroll, $state, $stateParams, $http) {
+  "$parse",
+  function(UsersService, $rootScope, LocalAuthService, $location, $anchorScroll, $state, $stateParams, $http, $parse) {
     UsersService.verifyLogin();
     LocalAuthService.setToken();
 
@@ -82,5 +85,6 @@ app.run([
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       console.log(fromState.name, '->', toState.name);
     });
+
   }
 ]);
