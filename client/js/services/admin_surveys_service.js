@@ -9,6 +9,9 @@ app.factory("AdminSurveysService", [
     };
     
     return {
+      getResponseSummaries: function(query = '') {
+	return $http.get('/api/v1/admin/responses?q=' + query).then(unwrap); // TODO: urlencode
+      },
       publishSurvey: function(id) {
 	return $http.post('/api/v1/admin/surveys/' + id + '/publish').then(unwrap);
       },

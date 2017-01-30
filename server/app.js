@@ -29,6 +29,7 @@ app.use('/api/v1/users', require('./api/v1/users')(passport));
 app.use('/api/v1/surveys', require('./api/v1/surveys'));
 app.use('/api/v1/responses', require('./api/v1/responses'));
 app.use('/api/v1/admin/surveys', require('./api/v1/admin/surveys'));
+app.use('/api/v1/admin/responses', require('./api/v1/admin/responses'));
 app.use('/api/v1/admin/users', require('./api/v1/admin/users'));
 
 // send all routes to index.html and let angular handle the routing

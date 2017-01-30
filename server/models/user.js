@@ -1,8 +1,14 @@
 var bookshelf = require('../config/connection');
 
-var User = bookshelf.Model.extend({
+var User = bookshelf.model('User', {
   tableName: 'users',
-  hasTimestamps: true
+  hasTimestamps: true,
+  surveys: function() {
+    return this.hasMany('Survey');
+  },
+  responses: function() {
+    return this.hasMany('Response');
+  }
 });
 
 module.exports = User;

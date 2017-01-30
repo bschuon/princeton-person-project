@@ -2,6 +2,14 @@ app.config([
   "$stateProvider",
   function($stateProvider) {
 
+    var adminResponsesResolver = [
+      "$stateParams",
+      "AdminSurveysService",
+      function($stateParams, AdminSurveysService) {
+	return AdminSurveysService.getResponseSummaries($stateParams.q);
+      }
+    ];
+
     var adminSurveyResolver = [
       "$stateParams",
       "AdminSurveysService",
@@ -31,7 +39,6 @@ app.config([
 	return AdminUsersService.getUserById($stateParams.id);
       }
     ];
-
 
     // Admin Dashboard
     $stateProvider.state('admin', {
@@ -85,9 +92,12 @@ app.config([
       templateUrl: '/partials/admin/responses/layout.html',
       controller: 'AdminResponsesController'
     }).state('admin.responses.index', {
-      url: '/',
+      url: '/?q',
       templateUrl: '/partials/admin/responses/index.html',
-      controller: 'AdminResponsesIndexController'
+      controller: 'AdminResponsesIndexController',
+      resolve: {
+	responses: adminResponsesResolver
+      }
     });
 
     // Experiments

@@ -1,7 +1,29 @@
 <div class="container">
-  <div class="col-md-12 well">
-  <p class="center-block">
-    There doesn't seem to be any responses yet, why don't you <a ui-sref="surveys">take a survey?</a>
-  </p>
+  <div class="col-md-12 well" ng-if="!responsesPresent">
+    <p class="center-block">
+      There doesn't seem to be any responses yet, why don't you <a ui-sref="surveys">take a survey yourself?</a>
+    </p>
+  </div>
+  <div class="col-md-12 well" ng-if="responsesPresent">
+    <table class="table table-hover">
+      <thead>
+	<tr>
+	  <th>ID</th>
+	  <th width="40%">Survey</th>
+	  <th>Email</th>
+	  <th>Date</th>
+	  <th>Duration</th>
+	<tr>
+      </thead>
+      <tbody>
+	<tr ng-repeat="response in responses" ng-click="navResponse(response)">
+	  <td>{{ response.id }}</td>
+	  <td>{{ response.survey.name }}</td>
+	  <td>{{ response.user.email }}</td>
+	  <td>{{ response.updated_at | date: 'medium'}}</td>
+	  <td>{{ response.recorded_time || 0 }}s</td>
+	</tr>
+      </tbody>
+    </table>
   </div>
 </div>
