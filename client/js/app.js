@@ -1,4 +1,5 @@
 var app = angular.module('person-project', [
+
   'ui.router',
   'ui.bootstrap',
   'ui.codemirror',

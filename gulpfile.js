@@ -6,7 +6,6 @@ var util = require('gulp-util');
 var watch = require('gulp-watch');
 var bower = require('gulp-bower');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var rimraf = require('rimraf');
 var mincss = require('gulp-minify-css');
@@ -57,7 +56,7 @@ gulp.task('prod:js', function(){
   return gulp.src(paths.jssrc)
     .pipe(concat('index.js'))
     .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest(paths.destination))
     .on('error', util.log);
 });
