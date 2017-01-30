@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+set -x
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd ${DIR}/../
+
+git pull
+npm i
+gulp prod:build
+knex migrate:latest --knexfile ./server/config/db/js
+pm2 restart princeton
+
