@@ -1,5 +1,4 @@
 var app = angular.module('person-project', [
-
   'ui.router',
   'ui.bootstrap',
   'ui.codemirror',
@@ -13,7 +12,8 @@ var app = angular.module('person-project', [
   'mwFormUtils',
   'pascalprecht.translate',
   'ngFlash',
-  'hljs'
+  'hljs',
+  'ngFileUpload'
 ]);
 
 app.config([

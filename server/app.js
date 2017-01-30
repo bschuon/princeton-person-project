@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 var cookieParser = require('cookie-parser');
+var busboy = require('connect-busboy');
 var passport = require('passport');
 var path = require('path');
 
@@ -16,6 +17,7 @@ app.use(express.static(__dirname + '/../public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(busboy());
 app.use(cookieParser('secret'));
 app.use(cookieSession({ key: 'person.session', secret: 'secret'}));
 app.use(passport.initialize());

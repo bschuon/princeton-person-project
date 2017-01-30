@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Survey = require('../../../models/survey');
 var h = require('../helpers');
+var MemoryStream = require('memorystream');
+var path = require('path');
+var _ = require('lodash');
 
 router.get('/', function(req, res) {
   Survey.fetchAll().then(h.returnCollection(res)).catch(h.handleError(res));
@@ -19,6 +22,28 @@ router.post('/', function(req, res) {
     est_time: req.body.est_time, // in seconds
     schema: req.body.schema || "{}"
   }).save().then(h.returnModel(res)).catch(h.handleError(res));
+});
+
+// import
+router.post('/import', function(req, res) {
+  req.pipe(req.busboy);
+  req.busboy.on('file', function(fieldname, file, filename) {
+    var mstream = new MemoryStream(null, {
+      readable: false
+    });
+    file.pipe(mstream);
+    file.on('end', function() {
+      var uploaded = JSON.parse(mstream.toString());
+      h.fetchSurvey(uploaded.id).then(function(survey) {
+	survey.attributes.version++;
+	var attrs = _.omit(uploaded, ['id', 'version', 'created_at','updated_at']);
+	return survey.save(attrs);
+      }).catch(function() {
+	var attrs = _.omit(uploaded, ['created_at','updated_at']);
+	return Survey.forge().save(attrs);
+      }).then(h.returnModel(res)).catch(h.handleError(res));
+    });
+  });
 });
 
 router.post('/:id', function(req, res) {

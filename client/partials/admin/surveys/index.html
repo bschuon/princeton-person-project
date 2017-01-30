@@ -5,6 +5,13 @@
 	 class="btn pull-right"
 	 ui-sref="admin.surveys.new"
 	 >New Survey</button>
+      <button
+	 class="btn pull-right"
+	 ng-click="import()"
+	 type="file"
+	 ngf-select="import($file, $invalidFiles)"
+	 accept="*.json"
+	 >Import</button>
     </div>
   </div>
   <div class="row">

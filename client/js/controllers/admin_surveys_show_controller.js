@@ -1,3 +1,4 @@
+/*global saveAs*/
 app.controller('AdminSurveysShowController', [
   "$scope",
   "$state",
@@ -17,6 +18,14 @@ app.controller('AdminSurveysShowController', [
 
     $scope.showDisable = function() {
       return survey.status == 'published';
+    };
+
+    $scope.download = function() {
+      var data = JSON.stringify(survey, null, ' ');
+      var file = new Blob([data], {
+	type: 'application/json'
+      });
+      saveAs(file, `survey ${survey.name} v${survey.version}.json`);
     };
 
     $scope.publish = function() {
