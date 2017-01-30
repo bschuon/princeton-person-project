@@ -17,7 +17,7 @@ app.config([
       templateUrl: 'partials/user/dashboard.html',
       controller: 'UserDashboardController'
     }).state('user.signup', {
-      url: 'signup',
+      url: '/signup',
       templateUrl: '/partials/user/signup.html',
       controller: 'UsersController' // TODO: UserSignupController
     }).state('user.signin', {
