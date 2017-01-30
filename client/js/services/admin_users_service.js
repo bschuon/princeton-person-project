@@ -1,9 +1,24 @@
 app.factory('AdminUsersService', [
   "$http",
   function($http) {
+    var unwrap = function(res) {
+      if (!res.data.valid) {
+	throw res.data.error;
+      }
+      return res.data.model || res.data.collection || null;
+    };
+
     return {
-      createAdmin: function (admin) {
-	return $http.post('/api/v1/admin/users', admin).then(function (response) {
+      getUserById: function(id) {
+	return $http.get('/api/v1/admin/users/' + id).then(unwrap);
+      },
+      createUser: function(user) {
+	return $http.post('/api/v1/admin/users', user).then(function(response) {
+	  return response.data;
+	});
+      },
+      createAdmin: function(admin) {
+	return $http.post('/api/v1/admin/users', admin).then(function(response) {
           return response.data;
 	});
       },

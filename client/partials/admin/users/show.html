@@ -1,1 +1,19 @@
-<h1>Show</h1>
+<div class="container">
+  <div class="well col-md-6 col-md-offset-3">
+    <dl class="dl-horizontal">
+      <dt>ID</dt><dd>{{ user.id }}</dd>
+      <dt>Email</dt><dd>{{ user.email }}</dd>
+      <dt>Is Admin?</dt><dd>{{ user.admin ? 'YES' : 'NO' }}</dd>
+      <dt>Created At</dt><dd>{{ user.created_at | date: 'medium' }}</dd>
+      <dt>Updated At</dt><dd>{{ user.updated_at | date: 'medium' }}</dd>
+    </dl>
+    <!--button
+       class="btn btn-primary"
+       ui-sref="admin.users.edit({id: user.id})"
+       >Edit</button-->
+    <button
+       class="btn pull-right"
+       ui-sref="admin.users.index"
+       >Cancel</button>
+  </div>
+</div>

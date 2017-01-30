@@ -24,6 +24,14 @@ app.config([
       }
     ];
 
+    var adminUserResolver = [
+      "$stateParams",
+      "AdminUsersService",
+      function($stateParams, AdminUsersService) {
+	return AdminUsersService.getUserById($stateParams.id);
+      }
+    ];
+
 
     // Admin Dashboard
     $stateProvider.state('admin', {
@@ -105,14 +113,21 @@ app.config([
       resolve: {
 	users: adminUsersResolver
       }
+    }).state('admin.users.new', {
+      url: '/new',
+      templateUrl: '/partials/admin/users/new.html',
+      controller: 'AdminUsersNewController'
     }).state('admin.users.roles', {
       url: '/roles',
       templateUrl: '/partials/admin/users/roles.html',
       controller: 'AdminUsersRolesController'
     }).state('admin.users.show', {
-      url: '/:user_id',
+      url: '/:id',
       templateUrl: '/partials/admin/users/show.html',
-      controller: 'AdminUsersShowController'
+      controller: 'AdminUsersShowController',
+      resolve: {
+	user: adminUserResolver
+      }
     });
   }
 ]);

@@ -1,7 +1,8 @@
 app.controller('AdminUsersShowController', [
   "$scope",
-  function($scope) {
-
+  "user",
+  function($scope, user) {
+    $scope.user = user;
   }
 ]);
 

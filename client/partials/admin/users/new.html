@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="col-md-6 col-md-6-pre">
+    <form class="form-horizontal" ng-submit="createUser(user)">
+      <div class="form-group">
+	<label for="username" class="col-md-2">User Name</label>
+	<input name="username"
+	       class="col-md-10"
+	       type="text"
+	       ng-model="user.username"
+	       required="required"
+	       auto-focus>
+	<label for="email" class="col-md-2">Email</label>
+	<input name="email"
+	       class="col-md-10"
+	       type="email"
+	       ng-model="user.email"
+	       required="required">
+	<label for="password" class="col-md-2">Password</label>
+	<input name="password"
+	       class="col-md-10"
+	       type="password"
+	       ng-model="user.password"
+	       required="required">
+	<label for="password" class="col-md-2">Admin?</label>
+	<input name="admin"
+	       class="col-md-10"
+	       type="checkbox"
+	       ng-model="user.admin"
+	       value="1">
+      </div>
+      <button class="btn btn-default" type="submit">Submit</button>
+      <button class="btn pull-right" ui-sref="admin.users.index">Cancel</button>
+    </form>
+  </div>
+</div>

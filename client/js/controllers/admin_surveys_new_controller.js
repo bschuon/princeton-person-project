@@ -1,9 +1,9 @@
 app.controller('AdminSurveysNewController', [
   "$scope",
   "$state",
-  "AdminSurveysService",
   "Flash",
-  function($scope, $state, AdminSurveysService, Flash) {
+  "AdminSurveysService",
+  function($scope, $state, Flash, AdminSurveysService) {
     $scope.survey = {
       name: ""
     };
