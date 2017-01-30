@@ -27,13 +27,7 @@ app.controller('UsersController', [
 	  $scope.newUser = {};
 	  $location.path('/signup');
 	} else {
-	  UsersService.migrate().then(function(response){
-	    if(response.demographics){
-	      LocalAuthService.setCompletedDemographics();
-	    }
-
-	    $state.go('home');
-	  });
+	  $state.go('home');
 	}
       });
     };

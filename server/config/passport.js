@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var validate = require('../lib/user_validation');
+var bcrypt = require('bcrypt');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -41,14 +42,13 @@ module.exports = function(passport) {
       var hashed_pass = bcrypt.hashSync(password, 8);
       return new User({
 	username: username,
-	hashed_password: hashed_pass,
+	hashed_pass: hashed_pass,
 	email: req.body.email
-      }).save().then(function (user) {
-	return done(null, user.attributes, {success: "Logging in"});
-      }).catch(function(error) {
-	return done(error);
+      }).save().then(function(user) {
+	return done(null, user.serialize(), {success: "Logging in"});
       });
     }).catch(function(error) {
+      console.log('error:', error);
       return done(error);
     });
   }));

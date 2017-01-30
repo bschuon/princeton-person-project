@@ -40,7 +40,9 @@ var usersApi = function(passport) {
     })(req, res, next);
   });
 
+  // signup
   router.post('/', function(req, res, next) {
+    console.log('here');
     passport.authenticate('local-signup', function(err, user, info) {
       if (err || !user) {
 	res.status(401).json( {error: "Invalid login"} );
