@@ -1,6 +1,6 @@
 <div class="container">
   <div class="col-md-6 col-md-6-pre">
-    <form class="form-horizontal" ng-submit="createUser(user)">
+    <form class="form-horizontal" ng-submit="updateUser(user)">
       <div class="form-group">
 	<label for="username" class="col-md-2">User Name</label>
 	<input name="username"
@@ -19,8 +19,7 @@
 	<input name="password"
 	       class="col-md-10"
 	       type="password"
-	       ng-model="user.password"
-	       required="required">
+	       ng-model="user.password">
 	<label for="admin" class="col-md-2">Admin?</label>
 	<input name="admin"
 	       class="col-md-10"

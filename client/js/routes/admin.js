@@ -128,6 +128,13 @@ app.config([
       resolve: {
 	user: adminUserResolver
       }
+    }).state('admin.users.edit', {
+      url: '/:id/edit',
+      templateUrl: '/partials/admin/users/edit.html',
+      controller: 'AdminUsersEditController',
+      resolve: {
+	user: adminUserResolver
+      }
     });
   }
 ]);

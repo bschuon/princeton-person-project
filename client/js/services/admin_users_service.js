@@ -17,6 +17,11 @@ app.factory('AdminUsersService', [
 	  return response.data;
 	});
       },
+      updateUser: function(user) {
+	return $http.post('/api/v1/admin/users/' + user.id, user).then(function(response) {
+	  return response.data;
+	});
+      },
       createAdmin: function(admin) {
 	return $http.post('/api/v1/admin/users', admin).then(function(response) {
           return response.data;

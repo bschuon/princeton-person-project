@@ -7,10 +7,10 @@
       <dt>Created At</dt><dd>{{ user.created_at | date: 'medium' }}</dd>
       <dt>Updated At</dt><dd>{{ user.updated_at | date: 'medium' }}</dd>
     </dl>
-    <!--button
+    <button
        class="btn btn-primary"
        ui-sref="admin.users.edit({id: user.id})"
-       >Edit</button-->
+       >Edit</button>
     <button
        class="btn pull-right"
        ui-sref="admin.users.index"

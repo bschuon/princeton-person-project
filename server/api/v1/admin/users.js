@@ -7,7 +7,6 @@ var User = require('../../../models/user');
 var h = require('../helpers');
 
 router.post('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next) {
-  console.log(JSON.stringify(req.body));
   var hashed_pass = bcrypt.hashSync(req.body.password, 8);
   new User({
     username: req.body.username,
@@ -20,6 +19,19 @@ router.post('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next)
     console.log("error:", error);
     res.status(500).send({error: "Could not create an admin"});
   });
+});
+
+router.post('/:id', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next) {
+  console.log(JSON.stringify(req.body));
+  h.fetchUser(req.params.id).then(function(user) {
+    user.attributes.username = req.body.username || user.attributes.username;
+    user.attributes.email = req.body.email || user.attributes.email;
+    user.attributes.admin = !!req.body.admin;
+    if (!!req.body.password) {
+      user.attributes.hashed_pass = bcrypt.hashSync(req.body.password, 8);
+    }
+    return user.save();
+  }).then(h.returnModel(res)).catch(h.handleError(res));
 });
 
 router.get('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next) {
