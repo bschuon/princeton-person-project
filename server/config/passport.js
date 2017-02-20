@@ -17,10 +17,6 @@ module.exports = function(passport) {
       bio: user.attributes.bio,
       email: user.attributes.email || null,
       emailVerified: user.attributes.email_verified === true
-      // id: user.attributes.id,
-      // username: user.attributes.username,
-      // admin: user.attributes.admin,
-      // email: user.attributes.email
     };
   }
   // used to serialize the user for the session
@@ -41,27 +37,29 @@ module.exports = function(passport) {
     });
   });
 
-  // Local signup.  Used for creating a user, no
   passport.use('local-signup', new LocalStrategy({
     passReqToCallback : true
   }, function(req, username, password, done) {
-    validate.userExists(username).then(function(results) {
+    validate.userOrEmailExists(username.toLowerCase()).then(function(results) {
       if (results) {
 	return done(null, false, {error: 'Incorrect username or password'});
       }
       var hashed_pass = bcrypt.hashSync(password, 8);
       var email_verify_token = token.emailVerifyToken();
       console.log("email_verify_token:", email_verify_token);
-      return new User({
-	username: username,
-	email: req.body.email,
-	email_verify_token: email_verify_token,
+      var userData = {
+	username: username.toLowerCase(),
+	email: req.body.email.toLowerCase(),
+	email_verify_token: email_verify_token.toLowerCase(),
 	hashed_pass: hashed_pass,
 	admin: false,
 	researcher: false,
 	email_verified: false,
 	bio: JSON.stringify({})
-      }).save().then(function(user) {
+      };
+      console.log('userData:', JSON.stringify(userData));
+      return new User(userData).save().then(function(user) {
+	console.log('created user:', JSON.stringify(user));
 	return mailer.sendVerifyTokenEmail(user.attributes.email, user.attributes.email_verify_token).then(function() {
 	  return user;
 	});
@@ -77,6 +75,8 @@ module.exports = function(passport) {
   passport.use('local-signin', new LocalStrategy({
     passReqToCallback : true
   }, function(req, username, password, done) {
+    username = username.toLowerCase();
+    console.log('local-signin:', username);
     validate.userOrEmailExists(username).then(function(user) {
       if (user && validate.checkPassword(password, user.attributes)) {
 	return done(null, user.attributes, {success: "Logged in"});

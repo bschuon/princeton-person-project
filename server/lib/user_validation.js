@@ -15,12 +15,16 @@ module.exports = {
     }
     return errors;
   },
-  userExists: function (username, email) {
-    return new User({ username: username }).fetch();
-  },
   userOrEmailExists: function (usernameOrEmail) {
-    return new User().query({where: {username: usernameOrEmail},
-                             orWhere: {email: usernameOrEmail}}).fetch();
+    console.log('userOrEmailExists', usernameOrEmail);
+    return new User().query({
+      where: {
+	username: usernameOrEmail.toLowerCase()
+      },
+      orWhere: {
+	email: usernameOrEmail.toLowerCase()
+      }
+    }).fetch();
   },
   checkPassword: function (input, record) {
     return bcrypt.compareSync(input, record.hashed_pass);

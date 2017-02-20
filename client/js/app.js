@@ -66,7 +66,7 @@ app.run([
 	  username: admin.email,
 	  password: admin.password
 	}).then(function() {
-	  window.location.href= "/";
+	  window.location.href= "/users/verification-sent";
 	});
       });
     };

@@ -15,15 +15,17 @@ router.post('/', function(req, res, err) {
     if (adminCount == "0") {
       var email_verify_token = token.emailVerifyToken();
       console.log("email_verify_token:", email_verify_token);
-      new User({
-	username: req.body.username,
-	email: req.body.email,
+      var userData = {
+	username: req.body.username.toLowerCase(),
+	email: req.body.email.toLowerCase(),
 	email_verify_token: email_verify_token,
 	hashed_pass: hashed_pass,
 	admin: true,
 	researcher: true,
-	bio: JSON.stringify({})	
-      }).save().then(function(user) {
+	bio: JSON.stringify({})
+      };
+      console.log('userData:', JSON.stringify(userData));
+      new User(userData).save().then(function(user) {
 	return mailer.sendVerifyTokenEmail(user.attributes.email, user.attributes.email_verify_token).then(function() {
 	  return user;
 	});

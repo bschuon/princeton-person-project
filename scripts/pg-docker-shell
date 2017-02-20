@@ -3,4 +3,4 @@
 set -e
 set -x
 
-docker exec -i -t princetondb /bin/bash
+docker exec -i -t princetondb /bin/bash -c 'export TERM=xterm; su postgres -c "psql -d princeton_dev"'

@@ -8,6 +8,10 @@ app.config([
       url: '/password',
       templateUrl: 'partials/user/password.html',
       controller: 'UserPasswordController'
+    }).state('user.reset_password', {
+      url: '/reset-password',
+      templateUrl: 'partials/user/reset_password.html',
+      controller: 'UserResetPasswordController'
     }).state('user.profile', {
       url: '/profile',
       templateUrl: 'partials/user/profile.html',

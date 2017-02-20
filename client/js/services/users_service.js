@@ -3,6 +3,11 @@ app.factory('UsersService', [
   "LocalAuthService",
   function($http, LocalAuthService) {
     return {
+      resetPassword: function(emailOrUsername) {
+	return $http.post('/api/v1/users/reset-password', {
+	  emailOrUsername: emailOrUsername
+	});
+      },
       resendVerificationToken: function() {
 	return $http.post('/api/v1/users/resend-verification-token', {});
       },
@@ -32,9 +37,12 @@ app.factory('UsersService', [
 	});
       },
       create: function(attrs) {
-	return $http.post('/api/v1/users', attrs).then(function (response) {
+	return $http.post('/api/v1/users', attrs).then(function(response) {
           LocalAuthService.setUserInfo(response.data);
           return response.data;
+	}).catch(function(err) {
+	  console.log('UsersService.create', JSON.stringify(attrs), 'errored:', JSON.stringify(err));
+	  throw err.data.error || 'Unknown error. Please try again.';
 	});
       },
       verifyLogin: function() {

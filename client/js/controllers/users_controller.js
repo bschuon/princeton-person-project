@@ -7,8 +7,9 @@ app.controller('UsersController', [
   "$location",
   "LocalAuthService",
   "$stateParams",
+  "Flash",
   function($timeout, $state, $rootScope, $scope, UsersService,
-	   $location, LocalAuthService, $stateParams) {
+	   $location, LocalAuthService, $stateParams, Flash) {
 
     $scope.view = {loginInfo: {}};
 
@@ -21,14 +22,13 @@ app.controller('UsersController', [
     };
 
     $scope.signup = function() {
+      console.log('users_controller.signup');
       UsersService.create($scope.newUser).then(function(response) {
-	if (response.error) {
-	  $scope.errors = response.error;
-	  $scope.newUser = {};
-	  $location.path('/signup');
-	} else {
-	  $state.go('home');
-	}
+	console.log('success');
+	$state.go('user.verification_sent');
+      }).catch(function(err) {
+	console.log('error:', err);
+	Flash.create('warning', err);
       });
     };
 

@@ -18,7 +18,7 @@ var User = bookshelf.model('User', {
       if (user.attributes.email_verified) {
 	console.log('email_verified');
 	resolve(user);
-      } else if (user.attributes.email_verify_token == token) {
+      } else if (user.attributes.email_verify_token.toLowerCase() == token.toLowerCase()) {
 	console.log('token verified');
 	user.attributes.email_verified = true;
 	user.save().then(function(user) {

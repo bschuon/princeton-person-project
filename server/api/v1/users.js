@@ -50,9 +50,13 @@ var usersApi = function(passport) {
   });
 
   router.post('/signin', function(req, res, next) {
+    console.log('signin');
     passport.authenticate('local-signin', function(err, user, info) {
       if (err || !user) {
-	res.status(401).json( {error: "Invalid login"} );
+	if (err) {
+	  console.log('err:', err);
+	}
+	res.status(401).json({error: "Invalid login"});
       } else {
 	req.login(user, function(err) {
           if (err) {
@@ -65,17 +69,21 @@ var usersApi = function(passport) {
     })(req, res, next);
   });
 
-  // signup
   router.post('/', function(req, res, next) {
+    console.log('signup');
     passport.authenticate('local-signup', function(err, user, info) {
       if (err || !user) {
-	res.status(401).json( {error: "Invalid login"} );
+	if (err) {
+	  console.log('err:', err);
+	}
+	res.status(401).json({error: "An account with that username or email already exists."});
       } else {
 	req.login(user, function(err) {
           if (err) {
-	    next(err);
+	    res.json({error: err || 'Unable to signin'});
+	  } else {
+	    res.json(user);
 	  }
-	  res.json(user);
 	});
       }
     })(req, res, next);
@@ -85,14 +93,19 @@ var usersApi = function(passport) {
     return res.json(req.user || {});
   });
 
-  router.delete('/session', auth.ensureLoggedIn, function(req, res, next) {
+  router.delete('/session', function(req, res, next) {
     req.logout();
     return res.json({success: "Logged out"});
   });
 
-  router.delete('/me', auth.ensureLoggedIn, function (req, res, next) {
-    new User({ id: req.params.user_id }).destroy().then(function(result) {
-      res.json(result);
+  router.delete('/me', function (req, res, next) {
+    User.find(req.user.id).fetch().destroy().then(function(user) {
+      res.json(user);
+    }).catch(function(err) {
+      console.log('delete /me error:', err);
+      res.status(500).json({
+	error: err
+      });
     });
   });
 
@@ -106,8 +119,8 @@ var usersApi = function(passport) {
   router.put('/profile', auth.ensurePasswordWithCredentials, function (req, res, next) {
     new User({
       id: req.user.id,
-      username: req.body.username,
-      email: req.body.email
+      username: req.body.username.toLowerCase(),
+      email: req.body.email.toLowerCase()
     }).save().then(function() {
       res.json({});
     });
