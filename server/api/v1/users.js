@@ -10,19 +10,21 @@ var bcrypt = require('bcrypt');
 
 var usersApi = function(passport) {
 
-  var userAsJson = function(user) {
-    var email = user.email;
-    if (email === "" || email === null) {
-      email = undefined;
-    }
-    return {
-      id: user.id,
-      admin: user.admin === true,
-      username: user.username,
-      completed_demographics: user.completed_demographics,
-      email: email
-    };
-  };
+  router.post('/verify', function(req, res, next) {
+    console.log('req.user.id', req.user.id);
+    console.log('req.body.token', req.body.token);
+    User.where({
+      id: req.user.id
+    }).fetch().then(function(user) {
+      user.verifyToken(req.body.token).then(function(user) {
+	console.log('user.verifyToken resolved:', JSON.stringify(user));
+	res.json(user);
+      }).catch(function(err) {
+	console.log('user.verifyToken rejected');
+	res.status(406).json({error: err});
+      });
+    });
+  });
 
   router.post('/signin', function(req, res, next) {
     passport.authenticate('local-signin', function(err, user, info) {
@@ -33,7 +35,7 @@ var usersApi = function(passport) {
           if (err) {
 	    next(err);
 	  } else {
-            res.json(userAsJson(user));
+            res.json(user);
 	  }
 	});
       }
@@ -42,7 +44,6 @@ var usersApi = function(passport) {
 
   // signup
   router.post('/', function(req, res, next) {
-    console.log('here');
     passport.authenticate('local-signup', function(err, user, info) {
       if (err || !user) {
 	res.status(401).json( {error: "Invalid login"} );
@@ -51,14 +52,14 @@ var usersApi = function(passport) {
           if (err) {
 	    next(err);
 	  }
-	  res.json(userAsJson(user));
+	  res.json(user);
 	});
       }
     })(req, res, next);
   });
 
-  router.get('/me', auth.ensureLoggedIn, function(req, res, next) {
-    return res.json(req.user);
+  router.get('/me', function(req, res, next) {
+    return res.json(req.user || {});
   });
 
   router.delete('/session', auth.ensureLoggedIn, function(req, res, next) {

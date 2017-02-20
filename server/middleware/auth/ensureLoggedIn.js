@@ -1,8 +1,11 @@
 function ensureLoggedIn(req, res, next) {
   if (!req.isAuthenticated()) {
-    return res.status(401).json({error: "Username/password invalid"});
+    res.status(401).json({error: "Username/password invalid"});
+  } else if (!req.user.email_verified) {
+    res.status(401).json({error: "User not verified."});
+  } else {
+    next();
   }
-  next();
 }
 
 module.exports = ensureLoggedIn;

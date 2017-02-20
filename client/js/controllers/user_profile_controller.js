@@ -11,7 +11,7 @@ app.controller('UserProfileController', [
 	$state.go('user.dashboard');
       }).catch(function(err) {
 	// $scope.errorMessage = "Password is invalid";
-	$scope.errorMessage = "Error: " + (error.message || err);
+	$scope.errorMessage = "Error: " + (err.message || err);
       });
     };
 

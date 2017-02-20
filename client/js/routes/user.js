@@ -27,6 +27,25 @@ app.config([
     }).state('user.logout', {
       url: '/logout',
       controller: 'UserLogoutController'
+    }).state('user.verification_sent', {
+      url: '/verification-sent',
+      templateUrl: '/partials/user/verification_sent.html',
+      controller: 'UserVerificationSentController'
+    }).state('user.resend_verification', {
+      url: '/resend-verification',
+      controller: 'UserResendVerificationController'
+    }).state('user.verify', {
+      url: '/verify?token',
+      templateUrl: '/partials/user/verify.html',
+      controller: 'UserVerifyController',
+      resolve: {
+	token: [
+	  "$stateParams",
+	  function($stateParams) {
+	    return $stateParams.token;
+	  }
+	]
+      }
     });
   }
 ]);

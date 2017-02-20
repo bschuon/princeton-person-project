@@ -3,6 +3,18 @@ app.factory('UsersService', [
   "LocalAuthService",
   function($http, LocalAuthService) {
     return {
+      verifyEmail: function(token) {
+	console.log('verifyEmail');
+	return $http.post('/api/v1/users/verify', {
+	  token: token
+	}).then(function(response) {
+	  console.log('returning response.data:', response.data);
+	  return response.data;
+	}).catch(function(err) {
+	  console.log('returning err', err.data.error);
+	  return err.data.error || err.data;
+	});
+      },
       changePassword: function(password, new_password) {
 	return $http.put('/api/v1/users/password', {
 	  password: password,

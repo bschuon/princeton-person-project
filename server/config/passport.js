@@ -2,15 +2,24 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var validate = require('../lib/user_validation');
 var bcrypt = require('bcrypt');
+var randomstring = require('randomstring');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
-  function userToJSON(user) {
+
+  function userToJSON(user) { // TODO: extract to helper / user model
     return {
-      id: user.attributes.id,
+      id: user.id,
+      admin: user.attributes.admin === true,
+      researcher: user.attributes.researcher === true,
       username: user.attributes.username,
-      admin: user.attributes.admin,
-      email: user.attributes.email
+      bio: user.attributes.bio,
+      email: user.attributes.email || null,
+      emailVerified: user.attributes.email_verified === true
+      // id: user.attributes.id,
+      // username: user.attributes.username,
+      // admin: user.attributes.admin,
+      // email: user.attributes.email
     };
   }
   // used to serialize the user for the session
@@ -40,10 +49,20 @@ module.exports = function(passport) {
 	return done(null, false, {error: 'Incorrect username or password'});
       }
       var hashed_pass = bcrypt.hashSync(password, 8);
+      var email_verify_token = randomstring.generate({
+	length: 12,
+	charset: 'hex'
+      });
+      console.log("email_verify_token:", email_verify_token);
       return new User({
 	username: username,
+	email: req.body.email,
+	email_verify_token: email_verify_token,
 	hashed_pass: hashed_pass,
-	email: req.body.email
+	admin: false,
+	researcher: false,
+	email_verified: false,
+	bio: JSON.stringify({})
       }).save().then(function(user) {
 	return done(null, user.serialize(), {success: "Logging in"});
       });
