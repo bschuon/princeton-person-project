@@ -10,15 +10,15 @@ TODO
 	* [PASS] Username is case insensitive
 	* [PASS] Redirect to verify email page after signing up
     * [PASS] Verify Email
-  * [QA-READY] Sign In 
+  * [PASS] Sign In 
     * [PASS] /users/signin - layout
     * [PASS] Correct Username/Password
 	* [PASS] Correct Email/Password
-	* [QA-READY] Incorrect Username/Password
-	* [QA-READY] Incorrect Email/Password
-    * [QA-READY] Reset Password
-  * [QA-READY] Sign Out
-    * [DEFECT] 401 Error on signout
+	* [PASS] Incorrect Username/Password
+	* [PASS] Incorrect Email/Password
+    * [PASS] Reset Password
+  * [PASS] Sign Out
+    * [PASS] 401 Error on signout
   * [QA-READY] User Demographics
     * [QA-READY] Edit/Update Demographics
   * [QA-READY] Rights Management	

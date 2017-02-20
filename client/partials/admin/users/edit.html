@@ -20,12 +20,26 @@
 	       class="col-md-10"
 	       type="password"
 	       ng-model="user.password">
-	<label for="admin" class="col-md-2">Admin?</label>
+      </div>
+      <div class="form-group">
+	<div class="row">
+	<div class="col-md-3"></div>
 	<input name="admin"
-	       class="col-md-10"
+	       class="col-md-1"
 	       type="checkbox"
 	       ng-model="user.admin"
 	       value="1">
+	<label for="admin" class="col-md-2">Admin?</label>
+	</div>
+	<div class="row">
+	<div class="col-md-3"></div>
+	<input name="researcher"
+	       class="col-md-1"
+	       type="checkbox"
+	       ng-model="user.researcher"
+	       value="1">
+	<label for="researcher" class="col-md-2">Researcher?</label>
+	</div>
       </div>
       <button class="btn btn-default" type="submit">Submit</button>
       <button class="btn pull-right" ui-sref="admin.users.index">Cancel</button>

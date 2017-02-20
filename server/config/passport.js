@@ -16,7 +16,7 @@ module.exports = function(passport) {
       username: user.attributes.username,
       bio: user.attributes.bio,
       email: user.attributes.email || null,
-      emailVerified: user.attributes.email_verified === true
+      email_verified: user.attributes.email_verified === true
     };
   }
   // used to serialize the user for the session

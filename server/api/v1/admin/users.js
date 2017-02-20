@@ -27,6 +27,7 @@ router.post('/:id', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, ne
     user.attributes.username = req.body.username || user.attributes.username;
     user.attributes.email = req.body.email || user.attributes.email;
     user.attributes.admin = !!req.body.admin;
+    user.attributes.researcher = !!req.body.researcher;
     if (!!req.body.password) {
       user.attributes.hashed_pass = bcrypt.hashSync(req.body.password, 8);
     }
@@ -35,10 +36,10 @@ router.post('/:id', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, ne
 });
 
 router.get('/', auth.ensureLoggedIn, auth.ensureAdmin, function(req, res, next) {
-  bookshelf.knex.select().from('users').then(function(data) {
-    res.send(data);
-  }).catch(function(error) {
-    res.status(500).send({error: error});
+  User.fetchAll().then(function(users) {
+    res.json(users);
+  }).catch(function(err) {
+    res.status(500).json({error: err});
   });
 });
 
