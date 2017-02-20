@@ -3,6 +3,7 @@ var User = require('../models/user');
 var validate = require('../lib/user_validation');
 var bcrypt = require('bcrypt');
 var randomstring = require('randomstring');
+var mailer = require('../lib/mailer');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -64,6 +65,10 @@ module.exports = function(passport) {
 	email_verified: false,
 	bio: JSON.stringify({})
       }).save().then(function(user) {
+	return mailer.sendVerifyTokenEmail(user.attributes.email, user.attributes.email_verify_token).then(function() {
+	  return user;
+	});
+      }).then(function(user) {
 	return done(null, user.serialize(), {success: "Logging in"});
       });
     }).catch(function(error) {

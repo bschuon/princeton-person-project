@@ -3,12 +3,13 @@ var router = express.Router();
 var User = require('../../models/user');
 var bcrypt = require('bcrypt');
 var randomstring = require('randomstring');
+var mailer = require('../../lib/mailer');
 
 router.post('/', function(req, res, err) {
   var hashed_pass = bcrypt.hashSync(req.body.password, 8);
   console.log('hashed_pass', hashed_pass);
   User.where({
-    admin: true
+    admin: true    
   }).count().then(function(adminCount) {
     console.log("adminCount:", adminCount);
     if (adminCount == "0") {
@@ -25,8 +26,12 @@ router.post('/', function(req, res, err) {
 	admin: true,
 	researcher: true,
 	bio: JSON.stringify({})	
-      }).save().then(function() {
-	res.json({});
+      }).save().then(function(user) {
+	return mailer.sendVerifyTokenEmail(user.attributes.email, user.attributes.email_verify_token).then(function() {
+	  return user;
+	});
+      }).then(function(user) {
+	res.json(user);
       });
     } else {
       res.status(401).send("not authorized");
