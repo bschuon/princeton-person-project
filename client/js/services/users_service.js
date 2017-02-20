@@ -3,6 +3,9 @@ app.factory('UsersService', [
   "LocalAuthService",
   function($http, LocalAuthService) {
     return {
+      resendVerificationToken: function() {
+	return $http.post('/api/v1/users/resend-verification-token', {});
+      },
       verifyEmail: function(token) {
 	console.log('verifyEmail');
 	return $http.post('/api/v1/users/verify', {
@@ -12,7 +15,7 @@ app.factory('UsersService', [
 	  return response.data;
 	}).catch(function(err) {
 	  console.log('returning err', err.data.error);
-	  return err.data.error || err.data;
+	  throw err.data.error || err.data;
 	});
       },
       changePassword: function(password, new_password) {

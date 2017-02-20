@@ -7,9 +7,32 @@ var _ = require('lodash');
 var bookshelf = require('../../config/connection');
 var User = require('../../models/user');
 var bcrypt = require('bcrypt');
+var token = require('../../lib/token');
+var mailer = require('../../lib/mailer');
 
 var usersApi = function(passport) {
 
+  router.post('/resend-verification-token', function(req, res, next) {
+    console.log('resending verification token');
+    User.where({
+      id: req.user.id
+    }).fetch().then(function(user) {
+      user.attributes.email_verify_token = token.emailVerifyToken();
+      return user.save();
+    }).then(function(user) {
+      return mailer.sendVerifyTokenEmail(user.attributes.email, user.attributes.email_verify_token);
+    }).then(function() {
+      res.json({
+	status: 'OK'
+      });
+    }).catch(function(err) {
+      console.log('resending verification token failed:', err);
+      res.status(500).json({
+	error: err
+      });
+    });
+  });
+  
   router.post('/verify', function(req, res, next) {
     console.log('req.user.id', req.user.id);
     console.log('req.body.token', req.body.token);

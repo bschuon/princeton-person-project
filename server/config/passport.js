@@ -2,8 +2,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var validate = require('../lib/user_validation');
 var bcrypt = require('bcrypt');
-var randomstring = require('randomstring');
 var mailer = require('../lib/mailer');
+var token = require('../lib/token');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -50,10 +50,7 @@ module.exports = function(passport) {
 	return done(null, false, {error: 'Incorrect username or password'});
       }
       var hashed_pass = bcrypt.hashSync(password, 8);
-      var email_verify_token = randomstring.generate({
-	length: 12,
-	charset: 'hex'
-      });
+      var email_verify_token = token.emailVerifyToken();
       console.log("email_verify_token:", email_verify_token);
       return new User({
 	username: username,

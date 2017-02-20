@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
 var bcrypt = require('bcrypt');
-var randomstring = require('randomstring');
 var mailer = require('../../lib/mailer');
+var token = require('../../lib/token');
 
 router.post('/', function(req, res, err) {
   var hashed_pass = bcrypt.hashSync(req.body.password, 8);
@@ -13,10 +13,7 @@ router.post('/', function(req, res, err) {
   }).count().then(function(adminCount) {
     console.log("adminCount:", adminCount);
     if (adminCount == "0") {
-      var email_verify_token = randomstring.generate({
-	length: 12,
-	charset: 'hex'
-      });
+      var email_verify_token = token.emailVerifyToken();
       console.log("email_verify_token:", email_verify_token);
       new User({
 	username: req.body.username,

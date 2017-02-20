@@ -15,6 +15,7 @@ app.controller('UserVerifyController', [
       }).catch(function(err) {
 	// TODO: flash notice
 	console.log("Unable to authenticate token:", err);
+	$state.go('user.verification_sent');
       });
     }, 400);
   }
