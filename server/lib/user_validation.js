@@ -15,7 +15,7 @@ module.exports = {
     }
     return errors;
   },
-  userOrEmailExists: function (usernameOrEmail) {
+  userOrEmailExists: function(usernameOrEmail) {
     console.log('userOrEmailExists', usernameOrEmail);
     return new User().query({
       where: {

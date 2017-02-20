@@ -22,8 +22,26 @@ ${process.env['APP_BASE_URL']}/users/verify?token=${token}
   });
 };
 
-var sendPasswordResetEmail = function() {
-  throw 'not implemented';
+var sendPasswordResetEmail = function(userId, toAddress, token) {
+  return new Promise(function(resolve, reject) {
+    var text = `Please click the link below to reset your password:
+
+${process.env['APP_BASE_URL']}/users/${userId}/reset-password?token=${token}
+    `;
+    var data = {
+      from: process.env['EMAIL_DEFAULT_FROM'],
+      to: toAddress,
+      subject: 'Reset your Princeton Person Project account password',
+      text: text
+    };
+    mailgun.messages().send(data, function(err, body) {
+      if (err) {
+	reject(err);
+      } else {
+	resolve(body);
+      }
+    });
+  });
 };
 
 module.exports = {

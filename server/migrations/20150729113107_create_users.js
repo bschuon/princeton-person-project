@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     t.string('email').unique();
     t.string('email_verify_token');
     t.string('hashed_pass').notNullable();
+    t.string('password_reset_token');
     t.boolean('admin').defaultTo(false);
     t.boolean('researcher').defaultTo(false);
     t.boolean('email_verified').defaultTo(false);

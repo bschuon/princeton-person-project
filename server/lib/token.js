@@ -7,6 +7,14 @@ var emailVerifyToken = function() {
   });
 };
 
+var passwordResetToken = function() {
+  return randomstring.generate({
+    length: 12,
+    charset: 'hex'
+  });
+};
+
 module.exports = {
-  emailVerifyToken: emailVerifyToken
+  emailVerifyToken: emailVerifyToken,
+  passwordResetToken: passwordResetToken
 };

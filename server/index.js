@@ -1,4 +1,4 @@
-var app = require('./app');
+var app = require('./boot');
 var port = process.env.PORT || 3000;
 var debug = require('debug')('princeton-survey-app:server');
 var bookshelf = require('./config/connection');

@@ -11,7 +11,29 @@ app.config([
     }).state('user.reset_password', {
       url: '/reset-password',
       templateUrl: 'partials/user/reset_password.html',
-      controller: 'UserResetPasswordController'
+      controller: 'UserResetPasswordController',
+      resolve: {
+	userId: function() { return null; },
+	token: function() { return null; }
+      }
+    }).state('user.reset_password_token', {
+      url: '/{userId}/reset-password?token',
+      templateUrl: 'partials/user/reset_password.html',
+      controller: 'UserResetPasswordController',
+      resolve: {
+	userId: [
+	  '$stateParams',
+	  function($stateParams) {
+	    return $stateParams.userId;
+	  }
+	],
+	token: [
+	  '$stateParams',
+	  function($stateParams) {
+	    return $stateParams.token;
+	  }
+	]
+      }
     }).state('user.profile', {
       url: '/profile',
       templateUrl: 'partials/user/profile.html',

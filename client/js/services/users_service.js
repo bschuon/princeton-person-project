@@ -23,6 +23,17 @@ app.factory('UsersService', [
 	  throw err.data.error || err.data;
 	});
       },
+      resetPasswordWithToken: function(userId, token, newPassword) {
+	return $http.post(`/api/v1/users/${userId}/reset-password`, {
+	  token: token,
+	  password: newPassword
+	}).catch(function(err) {
+	  if (err && err.data && err.data.error) {
+	    return err.data.err;
+	  }
+	  return err.data || err;
+	});
+      },
       changePassword: function(password, new_password) {
 	return $http.put('/api/v1/users/password', {
 	  password: password,

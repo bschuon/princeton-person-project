@@ -12,6 +12,62 @@ var mailer = require('../../lib/mailer');
 
 var usersApi = function(passport) {
 
+  router.post('/:userId/reset-password', function(req, res, next) {
+    console.log('token reset-password:', req.params.userId, req.body.token);
+    User.where({
+      id: req.params.userId
+    }).fetch().then(function(user) {
+      if (!user) {
+	res.status(406).json({
+	  error: 'Unable to find user.'
+	});
+      } else {
+	console.log('found user:', JSON.stringify(user));
+	var hashed_pass = bcrypt.hashSync(req.body.password, 8);
+	user.attributes.hashed_pass = hashed_pass;
+	user.attributes.password_reset_token = null;
+	user.save().then(function(user) {
+	  res.json({
+	    status: 'OK'
+	  });
+	}).catch(function(err) {
+	  res.status(500).json({
+	    error: err
+	  });
+	});
+      }
+    }).catch(function(err) {
+      res.status(500).json({
+	error: 'There was an error processing your request: ' + err
+      });
+    });
+  });
+  
+  router.post('/reset-password', function(req, res, next) {
+    console.log('reset-password:', JSON.stringify(req.body));
+    if (req.user) {
+      res.status(400).json({
+	error: 'You must log out before resetting your password.'
+      });
+    } else if (!req.body.emailOrUsername) {
+      res.status(406).json({
+	error: 'Email or Username is required'
+      });
+    } else {
+      validate.userOrEmailExists(req.body.emailOrUsername).then(function(user) {
+	user.attributes.password_reset_token = token.passwordResetToken();
+	return user.save();
+      }).then(function(user) {
+	return mailer.sendPasswordResetEmail(user.id, user.attributes.email, user.attributes.password_reset_token);
+      }).then(function() {
+	res.json({status: 'OK'});
+      }).catch(function(err) {
+	console.log('err:', err);
+	res.status(500).json({error: 'An error occured while processing that request: ' + err});
+      });
+    }
+  });
+
   router.post('/resend-verification-token', function(req, res, next) {
     console.log('resending verification token');
     User.where({
