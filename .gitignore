@@ -4,3 +4,7 @@ public/
 *.tsv
 *.iml
 *.log
+/stats
+/error
+robots.txt
+
